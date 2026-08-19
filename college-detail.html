@@ -162,6 +162,26 @@
     </div>
   </div>
 
+  <!-- Modern Interactive Thank-You Modal -->
+  <div id="csThankYouModal" class="cs-modal-overlay" style="display: none;">
+    <div class="cs-modal-card">
+      <div class="cs-modal-icon-wrap">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="cs-modal-title">Enquiry Received! 🎉</h3>
+      <p class="cs-modal-desc">Thank you for reaching out to <strong>Careersathi</strong>. Our expert admission counselor will review your profile and connect with you on WhatsApp shortly.</p>
+      
+      <div class="cs-modal-actions">
+        <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20just%20submitted%20a%20university%20admission%20inquiry." target="_blank" class="cs-btn-wa-direct">
+          <i class="fa-brands fa-whatsapp"></i> Chat with Counselor
+        </a>
+        <button type="button" onclick="closeThankYouModal()" class="cs-btn-dismiss">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Complete Rich Footer -->
   <footer class="footer">
     <div class="footer-grid">
@@ -227,7 +247,7 @@
       const params = new URLSearchParams(window.location.search);
       const univId = parseInt(params.get('id'));
 
-      const allData = await loadAllData();
+      const allData = (typeof loadAllData === 'function') ? await loadAllData() : (typeof collegesData !== 'undefined' ? collegesData : []);
       currentUniversity = allData.find(u => u.id === univId) || allData[0];
 
       if (!currentUniversity) {
@@ -299,6 +319,16 @@
       document.getElementById('detailEnquiryModal').style.display = 'none';
     }
 
+    function showThankYouModal() {
+      const modal = document.getElementById('csThankYouModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeThankYouModal() {
+      const modal = document.getElementById('csThankYouModal');
+      if (modal) modal.style.display = 'none';
+    }
+
     async function handleDetailLeadSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('mSubmitBtn');
@@ -314,15 +344,15 @@
       };
 
       try {
-        if (supabaseClient) {
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
           await supabaseClient.from('leads').insert([payload]);
         }
-        alert("Enquiry submitted successfully! Our counsellor will connect with you on WhatsApp.");
         closeDetailModal();
         e.target.reset();
+        showThankYouModal();
       } catch(err) {
-        alert("Request noted! Connecting soon.");
         closeDetailModal();
+        showThankYouModal();
       } finally {
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Submit Admission Enquiry';
         btn.disabled = false;

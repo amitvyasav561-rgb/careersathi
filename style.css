@@ -255,8 +255,11 @@ body { background-color: var(--bg-dark); color: var(--text-white); line-height: 
   width: 100%; background: linear-gradient(135deg, var(--cyan-bright) 0%, var(--blue-electric) 100%);
   color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800;
   font-size: 0.95rem; cursor: pointer; margin-top: 8px; box-shadow: 0 0 20px rgba(6,182,212,0.3);
+  transition: all 0.2s ease;
 }
+.submit-counselling-btn:hover { transform: translateY(-2px); box-shadow: 0 0 28px rgba(6,182,212,0.5); }
 
+/* Modal Windows Default */
 .modal-backdrop {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(7, 11, 20, 0.85); backdrop-filter: blur(12px);
@@ -300,6 +303,116 @@ body { background-color: var(--bg-dark); color: var(--text-white); line-height: 
 .modal-banner {
   background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.3);
   padding: 12px 16px; border-radius: 10px; margin-bottom: 18px;
+}
+
+/* Modern Interactive Thank-You Modal */
+.cs-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 11, 20, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+  animation: csFadeIn 0.25s ease;
+}
+
+.cs-modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  border-radius: 24px;
+  max-width: 420px;
+  width: 100%;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.15);
+  transform: scale(0.95);
+  animation: csPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cs-modal-icon-wrap {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 16px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #34d399;
+  font-size: 2rem;
+}
+
+.cs-modal-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.cs-modal-desc {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.cs-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-btn-wa-direct {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+.cs-btn-wa-direct:hover {
+  opacity: 0.95;
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.5);
+  transform: translateY(-1px);
+}
+
+.cs-btn-dismiss {
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.cs-btn-dismiss:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+@keyframes csFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes csPopIn {
+  to { transform: scale(1); }
 }
 
 /* Complete Rich Footer */

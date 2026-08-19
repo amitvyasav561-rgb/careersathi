@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Careersathi | India's Smartest College Discovery Platform</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="saathi-ai.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -83,6 +84,111 @@
     }
     .student-info h4 { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 2px; }
     .student-info p { font-size: 0.78rem; color: var(--cyan-neon); }
+
+    /* Modern Thank You Modal Styling */
+    .cs-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(7, 11, 20, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 16px;
+      animation: csFadeIn 0.25s ease;
+    }
+
+    .cs-modal-card {
+      background: #0f172a;
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      border-radius: 24px;
+      max-width: 420px;
+      width: 100%;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.15);
+      transform: scale(0.95);
+      animation: csPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .cs-modal-icon-wrap {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 16px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #34d399;
+      font-size: 2rem;
+    }
+
+    .cs-modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .cs-modal-desc {
+      font-size: 0.88rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .cs-modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cs-btn-wa-direct {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+    .cs-btn-wa-direct:hover {
+      opacity: 0.92;
+    }
+
+    .cs-btn-dismiss {
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cs-btn-dismiss:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    @keyframes csFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes csPopIn {
+      to { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
@@ -266,6 +372,11 @@
             <div class="side-form-group">
               <label>WhatsApp Number</label>
               <input type="tel" id="sideLeadPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+            </div>
+
+            <div class="side-form-group">
+              <label>Email Address</label>
+              <input type="email" id="sideLeadEmail" placeholder="Enter your email address" required>
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
@@ -554,6 +665,11 @@
           <input type="tel" id="autoStudentPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
         </div>
 
+        <div class="side-form-group">
+          <label>Email Address</label>
+          <input type="email" id="autoStudentEmail" placeholder="Enter your email address" required>
+        </div>
+
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
           <div class="side-form-group">
             <label>Current City</label>
@@ -582,6 +698,26 @@
 
         <button type="submit" id="autoSubmitBtn" class="submit-counselling-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);"><i class="fa-solid fa-check"></i> Submit Admission Enquiry</button>
       </form>
+    </div>
+  </div>
+
+  <!-- Modern Interactive Thank-You Modal -->
+  <div id="csThankYouModal" class="cs-modal-overlay" style="display: none;">
+    <div class="cs-modal-card">
+      <div class="cs-modal-icon-wrap">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="cs-modal-title">Enquiry Received! 🎉</h3>
+      <p class="cs-modal-desc">Thank you for reaching out to <strong>Careersathi</strong>. Our expert admission counselor will review your profile and connect with you on WhatsApp shortly.</p>
+      
+      <div class="cs-modal-actions">
+        <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20just%20submitted%20an%20admission%20inquiry." target="_blank" class="cs-btn-wa-direct">
+          <i class="fa-brands fa-whatsapp"></i> Chat with Counselor
+        </a>
+        <button type="button" onclick="closeThankYouModal()" class="cs-btn-dismiss">
+          Close Window
+        </button>
+      </div>
     </div>
   </div>
 
@@ -780,6 +916,16 @@
       if (modal) modal.style.display = 'none';
     }
 
+    function showThankYouModal() {
+      const modal = document.getElementById('csThankYouModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeThankYouModal() {
+      const modal = document.getElementById('csThankYouModal');
+      if (modal) modal.style.display = 'none';
+    }
+
     async function handleAutoFillLeadSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('autoSubmitBtn');
@@ -789,21 +935,22 @@
       const payload = {
         student_name: document.getElementById('autoStudentName').value.trim(),
         phone: document.getElementById('autoStudentPhone').value.trim(),
+        email: document.getElementById('autoStudentEmail').value.trim(),
         course: `${document.getElementById('autoUnivName').value} - ${document.getElementById('autoCourseName').value} (${document.getElementById('autoStudentQual').value} - ${document.getElementById('autoStudentScore').value})`,
         location: `${document.getElementById('autoStudentCity').value.trim()}, ${document.getElementById('autoStudentState').value.trim()}`,
         status: "New"
       };
 
       try {
-        if (supabaseClient) {
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
           await supabaseClient.from('leads').insert([payload]);
         }
-        alert("Enquiry submitted successfully! Our counsellor will connect with you on WhatsApp.");
         closeModal('autoFillEnquiryModal');
         e.target.reset();
+        showThankYouModal();
       } catch(err) {
-        alert("Request noted! We will connect shortly.");
         closeModal('autoFillEnquiryModal');
+        showThankYouModal();
       } finally {
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Submit Admission Enquiry';
         btn.disabled = false;
@@ -819,19 +966,20 @@
       const payload = {
         student_name: document.getElementById('sideLeadName').value.trim(),
         phone: document.getElementById('sideLeadPhone').value.trim(),
+        email: document.getElementById('sideLeadEmail').value.trim(),
         course: `${document.getElementById('sideLeadCourse').value} (${document.getElementById('sideLeadScore').value})`,
         location: `${document.getElementById('sideLeadCity').value.trim()}, ${document.getElementById('sideLeadState').value.trim()}`,
         status: "New"
       };
 
       try {
-        if (supabaseClient) {
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
           await supabaseClient.from('leads').insert([payload]);
         }
-        alert("Counselling request received! Our expert will message you on WhatsApp shortly.");
         e.target.reset();
+        showThankYouModal();
       } catch(err) {
-        alert("Request noted! Connecting soon.");
+        showThankYouModal();
       } finally {
         btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Get Free Guidance';
         btn.disabled = false;
@@ -868,9 +1016,12 @@
       initAllStatesDropdowns();
       handleStreamFilterChange();
       syncSideCourses();
-      const data = await loadAllData();
-      renderCollegesGrid(data);
+      if (typeof loadAllData === 'function') {
+        const data = await loadAllData();
+        renderCollegesGrid(data);
+      }
     });
   </script>
+  <script src="saathi-ai.js"></script>
 </body>
 </html>
