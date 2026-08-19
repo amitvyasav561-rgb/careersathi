@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="CareerSathi - college discovery, counselling and admission support.">
+  <title>CareerSathi | Right Guidance, Bright Future</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Supabase Official Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Side Navigation Drawer -->
+  <div id="sideNavOverlay" class="nav-drawer-overlay" onclick="toggleNavDrawer()"></div>
+  <aside id="sideNavDrawer" class="nav-drawer">
+    <div class="drawer-header">
+      <div class="logo-text">Career<span>sathi</span></div>
+      <span class="close-drawer-btn" onclick="toggleNavDrawer()">&times;</span>
+    </div>
+    <ul class="drawer-menu">
+      <li><a href="#colleges" onclick="toggleNavDrawer()"><i class="fa-solid fa-university"></i> Universities</a></li>
+      <li><a href="courses.html"><i class="fa-solid fa-graduation-cap"></i> Courses</a></li>
+      <li><a href="#updates" onclick="toggleNavDrawer()"><i class="fa-solid fa-bolt"></i> Latest Updates</a></li>
+      <li><a href="admin.html" target="_blank"><i class="fa-solid fa-user-lock"></i> Admin Portal</a></li>
+    </ul>
+    <div class="drawer-footer">
+      <p>Connect With Us</p>
+      <div class="drawer-socials">
+        <a href="https://www.instagram.com/careersathi_official" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/917627094562" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="mailto:Amitvyasav561@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Top Navbar -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <button class="menu-toggle-btn" onclick="toggleNavDrawer()" aria-label="Open Menu"><i class="fa-solid fa-bars"></i></button>
+      <a class="logo" href="index.html">Career<span>sathi</span></a>
+    </div>
+    <div class="nav-links">
+      <a href="#colleges">Universities</a>
+      <a href="courses.html">Courses</a>
+      <a href="#process">How It Works</a>
+      <a href="#updates">Updates</a>
+    </div>
+    <div class="nav-right">
+      <a href="#leadForm" class="nav-btn"><i class="fa-solid fa-headset"></i> Free Counselling</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-premium">
+    <div class="container hero-grid">
+      <div>
+        <span class="trust-tag">✦ INDIA'S COLLEGE DISCOVERY & COUNSELLING PLATFORM</span>
+        <h1>Find the right college.<br><span>Build the right career.</span></h1>
+        <p class="hero-subtext">Explore universities, compare courses and fees, and get personalised admission guidance — all in one place.</p>
+        <div class="hero-actions">
+          <a class="cta-gradient-btn" href="#colleges">Explore Universities <i class="fa-solid fa-arrow-right"></i></a>
+          <a class="hero-secondary" href="#leadForm">Talk to a Counsellor</a>
+        </div>
+        <div class="hero-trust">
+          <span>✓ Course Guidance</span>
+          <span>✓ Fee Guidance</span>
+          <span>✓ Admission Support</span>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-badge">FREE COUNSELLING</div>
+        <h3>Not sure what to choose?</h3>
+        <p>Tell us your course, city and qualification. We'll help you shortlist suitable options.</p>
+        <a href="#leadForm" class="panel-link">Get personalised guidance <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="mini-stats">
+          <div><b>12+</b><small>Streams</small></div>
+          <div><b>50+</b><small>Options</small></div>
+          <div><b>1</b><small>Guidance Desk</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="finder-wrap">
+    <div class="container">
+      <div class="finder-card">
+        <div class="finder-head">
+          <div>
+            <span class="eyebrow">SMART COLLEGE FINDER</span>
+            <h2>Find colleges by your preference</h2>
+          </div>
+          <span class="finder-note">Choose one or more filters</span>
+        </div>
+        <div class="filter-box">
+          <div class="filter-item">
+            <label><i class="fa-solid fa-map-location-dot"></i> State / UT</label>
+            <select id="stateSelect" onchange="loadCities()">
+              <option value="All">All States / UTs</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label><i class="fa-solid fa-city"></i> City</label>
+            <select id="citySelect" onchange="renderColleges()">
+              <option value="All">All Cities</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label><i class="fa-solid fa-layer-group"></i> Stream</label>
+            <select id="streamSelect" onchange="loadCoursesByStream()">
+              <option value="All">All Streams</option>
+              <option value="Engineering">Engineering & Tech</option>
+              <option value="Management">Management & Business</option>
+              <option value="Computer Applications">Computer Applications & IT</option>
+              <option value="Science">Science Stream</option>
+              <option value="Commerce">Commerce & Finance</option>
+              <option value="Arts">Arts & Humanities</option>
+              <option value="Pharmacy">Pharmacy</option>
+              <option value="Nursing">Nursing</option>
+              <option value="Paramedical">Paramedical & Allied Health</option>
+              <option value="Agriculture">Agriculture & Veterinary</option>
+              <option value="Law">Law & Legal Studies</option>
+              <option value="Design">Design & Fine Arts</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label><i class="fa-solid fa-book-bookmark"></i> Course</label>
+            <select id="courseSelect" onchange="renderColleges()">
+              <option value="All">All Courses</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Universities Section -->
+  <section class="section" id="colleges">
+    <div class="container">
+      <div class="section-heading-row">
+        <div>
+          <span class="eyebrow">UNIVERSITY DISCOVERY</span>
+          <h2 id="resultHeading">Top Recommended Private Universities</h2>
+          <p>Compare popular options and open detailed fee information.</p>
+        </div>
+        <a href="courses.html" class="text-link">Explore all courses <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="college-layout">
+        <div class="college-grid" id="collegeGrid"></div>
+
+        <!-- Sidebar Lead Form -->
+        <aside class="lead-sidebar" id="leadForm">
+          <div class="form-card">
+            <span class="form-badge">EXPERT ADMISSION DESK</span>
+            <h3>Get free personalised guidance</h3>
+            <p>Share your details and our counsellor can help you shortlist courses and universities.</p>
+            <form onsubmit="handleComprehensiveLeadSubmit(event,'sidebar')">
+              <div class="form-group">
+                <label>Student Full Name</label>
+                <input type="text" id="sbName" placeholder="Enter your name" required>
+              </div>
+              <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="tel" id="sbPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>State</label>
+                  <input type="text" id="sbState" placeholder="e.g. Rajasthan" required>
+                </div>
+                <div class="form-group">
+                  <label>City</label>
+                  <input type="text" id="sbCity" placeholder="e.g. Jaipur" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Target Stream</label>
+                <select id="sbStream" onchange="syncFormCourses('sbStream','sbCourse')" required>
+                  <option value="">Select Stream</option>
+                  <option value="Engineering">Engineering & Tech</option>
+                  <option value="Management">Management & Business</option>
+                  <option value="Computer Applications">Computer Applications & IT</option>
+                  <option value="Science">Science Stream</option>
+                  <option value="Commerce">Commerce & Finance</option>
+                  <option value="Arts">Arts & Humanities</option>
+                  <option value="Pharmacy">Pharmacy</option>
+                  <option value="Nursing">Nursing</option>
+                  <option value="Paramedical">Paramedical & Allied Health</option>
+                  <option value="Agriculture">Agriculture & Veterinary</option>
+                  <option value="Law">Law & Legal Studies</option>
+                  <option value="Design">Design & Fine Arts</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Target Course</label>
+                <select id="sbCourse" required>
+                  <option value="">Select Target Course</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Preferred University <small>(Optional)</small></label>
+                <input type="text" id="sbPreferredUniv" placeholder="e.g. SGVU / Medi-Caps">
+              </div>
+              <div class="form-group">
+                <label>12th Marks / Entrance Score</label>
+                <input type="text" id="sbMarks" placeholder="e.g. 78% / JEE 82 percentile">
+              </div>
+              <button type="submit" class="submit-glow-btn"><i class="fa-solid fa-paper-plane"></i> Get Free Counselling</button>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Steps -->
+  <section class="section light-section" id="process">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">SIMPLE PROCESS</span>
+        <h2>From confusion to confident admission</h2>
+        <p>Four simple steps designed around the student's needs.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-card">
+          <b>01</b>
+          <i class="fa-solid fa-comments"></i>
+          <h3>Tell us your goal</h3>
+          <p>Share your qualification, preferred course and location.</p>
+        </div>
+        <div class="process-card">
+          <b>02</b>
+          <i class="fa-solid fa-list-check"></i>
+          <h3>Get suitable options</h3>
+          <p>Shortlist universities and courses that fit your requirements.</p>
+        </div>
+        <div class="process-card">
+          <b>03</b>
+          <i class="fa-solid fa-scale-balanced"></i>
+          <h3>Compare & choose</h3>
+          <p>Review fees, courses, placement highlights and details.</p>
+        </div>
+        <div class="process-card">
+          <b>04</b>
+          <i class="fa-solid fa-graduation-cap"></i>
+          <h3>Get admission support</h3>
+          <p>Move forward with guided counselling and enquiry support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Updates Carousel -->
+  <section class="section" id="updates">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">TRUST & UPDATES</span>
+        <h2>Partner universities & latest updates</h2>
+        <p>See the latest partner, article and news content available in the portal.</p>
+      </div>
+      <div class="tab-header">
+        <button class="tab-btn active" onclick="switchMediaTab('media')">University MOUs</button>
+        <button class="tab-btn" onclick="switchMediaTab('articles')">Articles</button>
+        <button class="tab-btn" onclick="switchMediaTab('news')">News Buzz</button>
+      </div>
+      <div class="tweet-carousel-container">
+        <div class="tweet-carousel-track" id="tweetTrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Stories -->
+  <section class="section light-section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">STUDENT STORIES</span>
+        <h2>What our students say</h2>
+      </div>
+      <div class="testimonial-card">
+        <div class="testi-header">
+          <img id="testiImg" src="https://ui-avatars.com/api/?name=Sahana&background=0b63ce&color=fff" alt="Student" class="testi-avatar">
+          <div>
+            <h4 id="testiName">Sahana Sharma</h4>
+            <span id="testiRole">B.Tech Student</span>
+            <div class="testi-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="testimonial-text" id="testiText"></p>
+        <div class="slider-controls">
+          <button class="slide-btn" onclick="prevTestimonial()" aria-label="Previous Testimonial"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="slide-btn" onclick="nextTestimonial()" aria-label="Next Testimonial"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div>
+        <div class="footer-logo">Career<span>sathi</span></div>
+        <p>College discovery, course guidance and admission support for students.</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/careersathi_official" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/917627094562" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="mailto:Amitvyasav561@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#colleges">Universities</a>
+        <a href="courses.html">Courses</a>
+        <a href="#process">How It Works</a>
+        <a href="#updates">Updates</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>📍 Bhilwara, Rajasthan - 311001</p>
+        <p>📞 <a href="tel:+917627094562">+91 76270 94562</a></p>
+        <p>✉️ <a href="mailto:Amitvyasav561@gmail.com">Amitvyasav561@gmail.com</a></p>
+        <p>Mon - Sat: 9:00 AM - 7:00 PM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 CareerSathi | All Rights Reserved. <span>careersathi.co.in</span></div>
+  </footer>
+
+  <!-- Application Modal -->
+  <div id="applyModal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <span class="form-badge">CAREERSATHI ADMISSION PORTAL</span>
+      <h3 id="modalCollegeTitle">Apply to University</h3>
+      <p>Submit your details and our counsellor will contact you.</p>
+      <form onsubmit="handleComprehensiveLeadSubmit(event,'modal')">
+        <input type="hidden" id="targetCollegeName">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="appStudentName" placeholder="Enter student full name" required>
+        </div>
+        <div class="form-group">
+          <label>Mobile / WhatsApp Number</label>
+          <input type="tel" id="appStudentPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="appStudentCity" placeholder="City" required>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" id="appStudentState" placeholder="State" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Target Course</label>
+          <input type="text" id="appStudentCourse" placeholder="e.g. B.Tech CSE / MBA" required>
+        </div>
+        <div class="form-group">
+          <label>12th Board % / Entrance Score</label>
+          <input type="text" id="appStudentScore" placeholder="e.g. 75% in 12th Board">
+        </div>
+        <button type="submit" class="modal-submit-btn">Submit Application</button>
+      </form>
+    </div>
+  </div>
+
+  <a href="https://wa.me/917627094562" target="_blank" class="floating-whatsapp-btn" aria-label="Contact on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+  <script src="colleges-data.js"></script>
+  <script>
+    function toggleNavDrawer() {
+      document.getElementById('sideNavDrawer').classList.toggle('active');
+      document.getElementById('sideNavOverlay').classList.toggle('active');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initStates();
+      renderColleges();
+      switchMediaTab('media');
+      setTestimonial(0);
+      syncFormCourses('sbStream', 'sbCourse');
+    });
+  </script>
+</body>
+</html>
