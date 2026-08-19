@@ -8,56 +8,56 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    .admin-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: none; }
+    .admin-container { max-width: 1240px; margin: 30px auto; padding: 0 20px; display: none; }
     
     .login-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 10% 20%, #0f172a 0%, #1e1b4b 50%, #090d16 100%);
+      background: radial-gradient(circle at 10% 20%, #070b14 0%, #0f172a 50%, #090d16 100%);
       z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px;
     }
     .login-card {
-      background: rgba(30, 27, 75, 0.95);
-      border: 1px solid rgba(6, 182, 212, 0.4);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-glow);
       border-radius: 20px; padding: 35px 30px; width: 100%; max-width: 420px;
       text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
       backdrop-filter: blur(16px);
     }
     .login-card h2 { color: #ffffff; font-size: 1.5rem; margin-bottom: 10px; font-weight: 800; }
-    .login-card p { color: #94a3b8; font-size: 0.88rem; margin-bottom: 25px; }
+    .login-card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 25px; }
     .login-card input {
       width: 100%; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px; background: #0f172a; color: white;
-      font-size: 0.95rem; margin-bottom: 15px; outline: none; box-sizing: border-box;
+      border-radius: 10px; background: #070b14; color: white;
+      font-size: 0.95rem; margin-bottom: 15px; outline: none;
     }
     .login-btn {
-      width: 100%; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      width: 100%; background: linear-gradient(135deg, var(--cyan-bright) 0%, var(--blue-electric) 100%);
       color: white; border: none; padding: 12px; border-radius: 10px;
       font-weight: 800; font-size: 1rem; cursor: pointer;
     }
 
     .admin-nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
     .admin-tab-btn {
-      padding: 10px 20px; border-radius: 10px; border: 1px solid #cbd5e1;
-      background: #fff; font-weight: 800; cursor: pointer; color: #64748b;
+      padding: 10px 20px; border-radius: 10px; border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.8); font-weight: 800; cursor: pointer; color: var(--text-muted);
     }
-    .admin-tab-btn.active { background: #1e1b4b; color: #fff; border-color: #1e1b4b; }
+    .admin-tab-btn.active { background: rgba(6, 182, 212, 0.15); color: var(--cyan-neon); border-color: var(--cyan-bright); }
 
     .admin-card {
-      background: #fff; border: 1px solid #e2e8f0;
+      background: var(--bg-card); border: 1px solid var(--border-glow);
       border-radius: 18px; padding: 30px; margin-bottom: 30px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-    .admin-card h2 { color: #1e1b4b; font-size: 1.4rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .admin-card h2 { color: #fff; font-size: 1.4rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
     
     .form-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 15px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group label { font-size: 0.85rem; font-weight: 700; color: #334155; }
+    .form-group label { font-size: 0.85rem; font-weight: 700; color: #cbd5e1; }
     .form-group input, .form-group select {
-      padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none;
+      padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; font-size: 0.9rem; outline: none; background: #070b14; color: #fff;
     }
     
     .course-input-row {
-      background: #f8fafc; border: 1px solid #e2e8f0;
+      background: rgba(7, 11, 20, 0.6); border: 1px solid var(--border-subtle);
       padding: 20px; border-radius: 12px; margin-bottom: 15px; position: relative;
     }
     .remove-course-btn {
@@ -66,7 +66,7 @@
       border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
     }
     .add-course-btn {
-      background: #f0f7ff; color: #2563eb; border: 1px dashed #2563eb;
+      background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px dashed rgba(59, 130, 246, 0.4);
       padding: 12px; border-radius: 8px; width: 100%; font-weight: 700;
       cursor: pointer; margin-bottom: 25px;
     }
@@ -76,28 +76,28 @@
       font-weight: 800; font-size: 1rem; cursor: pointer; width: 100%;
     }
     .cancel-edit-btn {
-      background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1;
+      background: rgba(255, 255, 255, 0.05); color: #cbd5e1; border: 1px solid var(--border-subtle);
       padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; display: none;
     }
 
     .univ-table { width: 100%; border-collapse: collapse; text-align: left; }
-    .univ-table th, .univ-table td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 0.88rem; }
-    .univ-table th { background: #f0f7ff; color: #1e1b4b; }
+    .univ-table th, .univ-table td { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.88rem; }
+    .univ-table th { background: rgba(6, 182, 212, 0.1); color: var(--cyan-neon); }
     .edit-btn { background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; margin-right: 6px; }
     .delete-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; }
     
     .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-    .status-New { background: #dbeafe; color: #1e40af; }
-    .status-Contacted { background: #fef3c7; color: #92400e; }
-    .status-Converted { background: #dcfce7; color: #166534; }
+    .status-New { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+    .status-Contacted { background: rgba(245, 158, 11, 0.2); color: #fde047; }
+    .status-Converted { background: rgba(16, 185, 129, 0.2); color: #86efac; }
   </style>
 </head>
 <body>
 
-  <!-- Supabase Secure Login Modal -->
+  <!-- Login Modal -->
   <div class="login-overlay" id="loginModal">
     <div class="login-card">
-      <h2><i class="fa-solid fa-shield-halved" style="color: #38bdf8;"></i> Admin Portal</h2>
+      <h2><i class="fa-solid fa-shield-halved" style="color: var(--cyan-neon);"></i> Admin Portal</h2>
       <p>Sign in with your verified Supabase Admin credentials</p>
       <form onsubmit="handleAdminLogin(event)">
         <input type="email" id="adminEmailInput" placeholder="Admin Email" value="amitvyasav561@gmail.com" required autofocus>
@@ -107,16 +107,16 @@
     </div>
   </div>
 
-  <!-- Top Navbar -->
-  <nav class="navbar" id="adminNavbar" style="display: none; padding: 15px 30px; background: #fff; border-bottom: 1px solid #e2e8f0; justify-content: space-between; align-items: center;">
-    <div class="nav-left" style="display: flex; align-items: center; gap: 15px;">
-      <a href="index.html" style="color: #1e1b4b; text-decoration: none; font-weight: 700;"><i class="fa-solid fa-arrow-left"></i> Live Site</a>
-      <div class="logo" style="font-weight: 800; font-size: 1.2rem; color: #2563eb;">Career<span>sathi Control Desk</span></div>
+  <!-- Navbar -->
+  <header class="navbar" id="adminNavbar" style="display: none;">
+    <div class="nav-left-group">
+      <a href="index.html" style="color: var(--cyan-neon); text-decoration: none; font-weight: 700;"><i class="fa-solid fa-arrow-left"></i> Live Site</a>
+      <div class="logo">Career<span>sathi Control Desk</span></div>
     </div>
     <div class="nav-right">
-      <button onclick="handleAdminLogout()" class="nav-btn" style="background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 700;"><i class="fa-solid fa-power-off"></i> Logout</button>
+      <button onclick="handleAdminLogout()" style="background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 700;"><i class="fa-solid fa-power-off"></i> Logout</button>
     </div>
-  </nav>
+  </header>
 
   <main class="admin-container" id="adminDashboard">
     
@@ -125,10 +125,10 @@
       <button class="admin-tab-btn" onclick="switchAdminTab('leads')"><i class="fa-solid fa-users"></i> Student Inquiries / Leads CRM</button>
     </div>
 
-    <!-- Section 1: Manage Universities -->
+    <!-- Universities Management -->
     <div id="univSection">
       <div class="admin-card" id="formCard">
-        <h2 id="formTitle"><i class="fa-solid fa-plus-circle" style="color: #2563eb;"></i> Add New Private University</h2>
+        <h2 id="formTitle"><i class="fa-solid fa-plus-circle" style="color: var(--cyan-neon);"></i> Add New Private University</h2>
 
         <form onsubmit="handleSaveUniversity(event)">
           <input type="hidden" id="editingUnivId" value="">
@@ -169,7 +169,7 @@
             <input type="text" id="adminUnivRecruiters" placeholder="e.g. TCS, Amazon, Wipro, Infosys">
           </div>
 
-          <h3 style="color: #1e1b4b; font-size: 1.15rem; margin-bottom: 15px;"><i class="fa-solid fa-graduation-cap" style="color: #2563eb;"></i> Courses Offered & Fees Breakdown</h3>
+          <h3 style="color: #ffffff; font-size: 1.15rem; margin-bottom: 15px;"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan-neon);"></i> Courses Offered & Fees Breakdown</h3>
           <div id="coursesContainer"></div>
 
           <button type="button" class="add-course-btn" onclick="addCourseRow()"><i class="fa-solid fa-plus"></i> Add Another Course</button>
@@ -180,7 +180,7 @@
       </div>
 
       <div class="admin-card">
-        <h2><i class="fa-solid fa-list-check" style="color: #2563eb;"></i> Live Database Universities</h2>
+        <h2><i class="fa-solid fa-list-check" style="color: var(--cyan-neon);"></i> Live Database Universities</h2>
         <div style="overflow-x: auto;">
           <table class="univ-table">
             <thead>
@@ -199,10 +199,10 @@
       </div>
     </div>
 
-    <!-- Section 2: Leads CRM -->
+    <!-- Leads CRM -->
     <div id="leadsSection" style="display: none;">
       <div class="admin-card">
-        <h2><i class="fa-solid fa-user-graduate" style="color: #2563eb;"></i> Student Leads CRM</h2>
+        <h2><i class="fa-solid fa-user-graduate" style="color: var(--cyan-neon);"></i> Student Leads CRM</h2>
         <div style="overflow-x: auto;">
           <table class="univ-table">
             <thead>
@@ -226,7 +226,6 @@
 
   <script src="colleges-data.js"></script>
   <script>
-    // Fallback Supabase client initialization with correct credentials
     if (typeof supabaseClient === 'undefined' || !supabaseClient) {
       const SUPABASE_URL = "https://vkkafkopquwieibqinip.supabase.co";
       const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZra2Fma29wcXV3aWVpYnFpbmlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjA0MDEsImV4cCI6MjEwMjY5NjQwMX0.QIGbprbPGan2LRvbKDgM-iEd6H21Se_4IngTFnmvVfE"; 
@@ -265,7 +264,7 @@
           showDashboard();
         }
       } catch (err) {
-        alert("Authentication request failed. Please ensure the site is accessed via https://statuesque-kangaroo-946783.netlify.app/admin.html");
+        alert("Authentication request failed. Please check your network.");
         btn.innerHTML = '<i class="fa-solid fa-lock"></i> Secure Login';
         btn.disabled = false;
       }
@@ -311,7 +310,7 @@
 
     function initAdminStates() {
       const stateSelect = document.getElementById('adminUnivState');
-      if (!stateSelect) return;
+      if (!stateSelect || typeof allIndiaStatesAndCities === 'undefined') return;
       stateSelect.innerHTML = '<option value="">Select State</option>';
       Object.keys(allIndiaStatesAndCities).sort().forEach(state => {
         stateSelect.innerHTML += `<option value="${state}">${state}</option>`;
@@ -406,12 +405,12 @@
       const selectedStream = streamEl.value;
       courseEl.innerHTML = '<option value="">Select Course</option>';
 
-      if (selectedStream && streamCourseMap[selectedStream]) {
+      if (selectedStream && typeof streamCourseMap !== 'undefined' && streamCourseMap[selectedStream]) {
         streamCourseMap[selectedStream].forEach(c => {
           const isSel = (c === selectedCourseVal) ? 'selected' : '';
           courseEl.innerHTML += `<option value="${c}" ${isSel}>${c}</option>`;
         });
-      } else {
+      } else if (typeof streamCourseMap !== 'undefined') {
         Object.values(streamCourseMap).flat().forEach(c => {
           const isSel = (c === selectedCourseVal) ? 'selected' : '';
           courseEl.innerHTML += `<option value="${c}" ${isSel}>${c}</option>`;
@@ -477,9 +476,9 @@
         tbody.innerHTML += `
           <tr>
             <td>${c.id}</td>
-            <td style="color: #2563eb; font-weight: 700;">${c.name}</td>
+            <td style="color: var(--cyan-neon); font-weight: 700;">${c.name}</td>
             <td>📍 ${c.city}, ${c.state}</td>
-            <td style="color: #b45309; font-weight: 700;">${c.highestPackage || 'N/A'}</td>
+            <td style="color: #fbbf24; font-weight: 700;">${c.highestPackage || 'N/A'}</td>
             <td>${cCount} Courses</td>
             <td>
               <button class="edit-btn" onclick="editUniversity(${c.id})"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
@@ -504,7 +503,7 @@
       tbody.innerHTML = '';
 
       if (error || !leads || leads.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #64748b;">No student leads captured yet.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No student leads captured yet.</td></tr>';
         return;
       }
 
@@ -513,13 +512,13 @@
         tbody.innerHTML += `
           <tr>
             <td>${dt}</td>
-            <td style="font-weight: 700; color: #1e1b4b;">${l.student_name}</td>
-            <td><a href="https://wa.me/91${l.phone}" target="_blank" style="color: #16a34a; font-weight: 700; text-decoration: none;">📞 ${l.phone}</a></td>
+            <td style="font-weight: 700; color: #fff;">${l.student_name}</td>
+            <td><a href="https://wa.me/91${l.phone}" target="_blank" style="color: #34d399; font-weight: 700; text-decoration: none;">📞 ${l.phone}</a></td>
             <td>${l.course || 'General'}</td>
             <td>${l.location || 'N/A'}</td>
             <td><span class="status-badge status-${l.status || 'New'}">${l.status || 'New'}</span></td>
             <td>
-              <select onchange="updateLeadStatus(${l.id}, this.value)" style="padding: 4px 8px; font-size: 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
+              <select onchange="updateLeadStatus(${l.id}, this.value)" style="padding: 4px 8px; font-size: 12px; border-radius: 6px; background: #070b14; color: #fff; border: 1px solid var(--border-subtle);">
                 <option value="New" ${l.status === 'New' ? 'selected' : ''}>New</option>
                 <option value="Contacted" ${l.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
                 <option value="Converted" ${l.status === 'Converted' ? 'selected' : ''}>Converted</option>
@@ -558,7 +557,7 @@
         });
       }
 
-      document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-pen-to-square" style="color: #2563eb;"></i> Edit: <span style="color: #1e1b4b;">${univ.name}</span>`;
+      document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-pen-to-square" style="color: var(--cyan-neon);"></i> Edit: <span style="color: #fff;">${univ.name}</span>`;
       document.getElementById('submitBtn').innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Update University Details`;
       document.getElementById('cancelBtn').style.display = 'block';
       document.getElementById('formCard').scrollIntoView({ behavior: 'smooth' });
@@ -574,16 +573,16 @@
       document.getElementById('adminUnivRecruiters').value = '';
       document.getElementById('coursesContainer').innerHTML = '';
       courseCount = 0;
-      addCourseRow('Engineering', 'B.Tech CSE', '4 Years', '₹55,000', '₹4,40,000', '10+2 PCM min 50%');
+      addCourseRow('Engineering', 'B.Tech CSE (Computer Science)', '4 Years', '₹55,000', '₹4,40,000', '10+2 PCM min 50%');
 
-      document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-plus-circle" style="color: #2563eb;"></i> Add New Private University`;
+      document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-plus-circle" style="color: var(--cyan-neon);"></i> Add New Private University`;
       document.getElementById('submitBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Save University to Supabase DB`;
       document.getElementById('cancelBtn').style.display = 'none';
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       checkAuthSession();
-      addCourseRow('Engineering', 'B.Tech CSE', '4 Years', '₹55,000', '₹4,40,000', '10+2 PCM min 50%');
+      addCourseRow('Engineering', 'B.Tech CSE (Computer Science)', '4 Years', '₹55,000', '₹4,40,000', '10+2 PCM min 50%');
     });
   </script>
 </body>

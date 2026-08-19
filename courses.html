@@ -3,416 +3,409 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Courses Offered - Careersathi.com</title>
+  <title>Academic Streams & Courses | Careersathi</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Supabase Official Client CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    .courses-hero {
-      padding: 50px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #061a38 0%, #0a376d 100%);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
+    .courses-full-container { width: 95%; max-width: 1440px; margin: 25px auto 80px; flex: 1; z-index: 20; position: relative; }
+    
+    .stream-block-wrapper {
+      background: var(--bg-card); border: 1px solid var(--border-glow);
+      border-radius: 20px; padding: 30px; margin-bottom: 40px; backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-    .stream-container { max-width: 1100px; margin: 30px auto; padding: 0 20px 70px; }
-    .stream-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: var(--shadow);
+    .stream-main-title {
+      font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-bottom: 25px;
+      display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 14px;
     }
-    .stream-head {
-      font-size: 1.35rem;
-      color: var(--navy);
-      font-weight: 800;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 12px;
+    .stream-main-title i { color: var(--cyan-neon); font-size: 1.4rem; }
+
+    .level-heading {
+      font-size: 1rem; font-weight: 800; color: var(--cyan-neon); margin: 20px 0 14px;
+      display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
     }
-    .level-block { margin-bottom: 18px; }
-    .level-title { font-size: 0.95rem; color: #b45309; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; }
-    .course-pills { display: flex; flex-wrap: wrap; gap: 10px; }
-    .course-pill {
-      background: #f0f7ff;
-      color: var(--navy);
-      border: 1px solid #d0e4ff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .level-heading.ug { color: #60a5fa; }
+    .level-heading.pg { color: #a78bfa; }
+
+    .courses-grid-row {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px;
     }
-    .course-pill i { color: var(--blue); }
-    .course-pill:hover { background: var(--blue); color: #fff; border-color: var(--blue); transform: translateY(-2px); }
-    .course-pill:hover i { color: #fff; }
-    .details-box h4 { color: var(--navy); margin-top: 10px; margin-bottom: 4px; font-size: 0.9rem; }
-    .apply-inquiry-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      margin-top: 15px;
+
+    .c-badge-card {
+      background: rgba(7, 11, 20, 0.7); border: 1px solid var(--border-subtle);
+      border-radius: 14px; padding: 18px; display: flex; flex-direction: column;
+      justify-content: space-between; transition: all 0.2s; position: relative;
     }
+    .c-badge-card:hover { border-color: var(--cyan-bright); transform: translateY(-2px); background: rgba(6, 182, 212, 0.05); }
+
+    .c-badge-card h4 { font-size: 1.05rem; font-weight: 800; color: #ffffff; margin-bottom: 8px; }
+    .c-meta-row { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; display: flex; justify-content: space-between; }
+    .c-meta-row strong { color: #cbd5e1; }
+
+    .c-inquire-btn {
+      margin-top: 14px; width: 100%; background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.4); color: var(--cyan-neon); padding: 8px;
+      border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; text-align: center;
+    }
+    .c-inquire-btn:hover { background: var(--cyan-bright); color: #070b14; }
   </style>
 </head>
 <body>
 
-  <!-- Top Navbar -->
-  <nav class="navbar">
-    <div class="nav-left">
-      <a href="index.html" class="hero-secondary" style="padding: 8px 14px; font-size: 13px; color: var(--navy); border-color: var(--line);"><i class="fa-solid fa-arrow-left"></i> Home</a>
-      <div class="logo" style="margin-left: 10px;">Career<span>sathi</span></div>
-    </div>
-    <div class="nav-right">
-      <a href="index.html#leadForm" class="nav-btn"><i class="fa-solid fa-headset"></i> Counseling</a>
-    </div>
-  </nav>
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow-2"></div>
 
-  <header class="courses-hero">
-    <span class="trust-tag">🎓 Comprehensive Course Finder</span>
-    <h1 style="font-size: 2.2rem; margin: 15px 0 10px;">Explore All Streams & Admission Requirements</h1>
-    <p style="color: #d6e5f6; max-width: 650px; margin: 0 auto;">Click on any course to view Duration, Eligibility, and Direct Admission Inquiry Form.</p>
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="index.html" class="logo">Career<span>sathi</span></a>
+    <nav class="nav-links">
+      <a href="index.html#universitiesSection">Universities</a>
+      <a href="courses.html" class="active">Courses</a>
+      <a href="index.html#smartFinderSection">College Finder</a>
+      <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Admin Portal</a>
+      <a href="javascript:void(0)" onclick="openCourseModal('General Counselling', '3-4 Years', '10+2 Pass')" class="nav-counselling-btn"><i class="fa-solid fa-headset"></i> Free Counselling</a>
+    </nav>
   </header>
 
-  <main class="stream-container">
+  <!-- Back & Home Action Header Bar -->
+  <div class="nav-back-bar">
+    <a href="index.html" class="btn-back-nav"><i class="fa-solid fa-arrow-left"></i> Back to Homepage</a>
+    <a href="index.html" class="btn-back-nav"><i class="fa-solid fa-house"></i> Home</a>
+  </div>
 
-    <!-- 1. Science Stream -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-flask" style="color: var(--blue);"></i> Science Stream</div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's Degrees (UG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Sc General')"><i class="fa-solid fa-circle-info"></i> B.Sc (PCM / PCB)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Sc Biotech')"><i class="fa-solid fa-circle-info"></i> B.Sc Biotechnology</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Sc Microbiology')"><i class="fa-solid fa-circle-info"></i> B.Sc Microbiology</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Sc Forensic Science')"><i class="fa-solid fa-circle-info"></i> B.Sc Forensic Science</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🏛️ Master's Degrees (PG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('M.Sc Science')"><i class="fa-solid fa-circle-info"></i> M.Sc (Physics, Chemistry, Maths, Biotech)</button>
-        </div>
-      </div>
-    </div>
+  <section class="page-header" style="margin-top: 15px;">
+    <div class="tag-badge"><i class="fa-solid fa-graduation-cap"></i> Academic Structure 2026-27</div>
+    <h1>Academic Streams & Degree Hierarchy</h1>
+    <p>Select courses by level: Diploma, Bachelor's (UG), and Master's (PG) degrees across all major disciplines.</p>
+  </section>
 
-    <!-- 2. Commerce & Finance -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-calculator" style="color: var(--blue);"></i> Commerce & Finance</div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's Degrees (UG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Com General')"><i class="fa-solid fa-circle-info"></i> B.Com (Pass Course)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Com Honors')"><i class="fa-solid fa-circle-info"></i> B.Com (Honors)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Com Banking & Finance')"><i class="fa-solid fa-circle-info"></i> B.Com (Banking & Finance)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Com Taxation')"><i class="fa-solid fa-circle-info"></i> B.Com (Taxation & Accounting)</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🏛️ Master's Degrees (PG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('M.Com')"><i class="fa-solid fa-circle-info"></i> M.Com (Accountancy, Finance, Business Eco)</button>
-        </div>
-      </div>
-    </div>
+  <main class="courses-full-container" id="streamHierarchyContainer"></main>
 
-    <!-- 3. Arts & Humanities -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-palette" style="color: var(--blue);"></i> Arts & Humanities</div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's Degrees (UG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('BA General')"><i class="fa-solid fa-circle-info"></i> BA (Pass Course)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('BA Journalism')"><i class="fa-solid fa-circle-info"></i> BA Journalism & Mass Communication (BJMC)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('BA Psychology')"><i class="fa-solid fa-circle-info"></i> BA Psychology / Political Science</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('BSW')"><i class="fa-solid fa-circle-info"></i> BSW (Bachelor of Social Work)</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🏛️ Master's Degrees (PG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('MA Arts')"><i class="fa-solid fa-circle-info"></i> MA (English, Hindi, History, Pol Science, Eco)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('MSW')"><i class="fa-solid fa-circle-info"></i> MSW (Master of Social Work)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Pharmacy -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-pills" style="color: var(--blue);"></i> Pharmacy</div>
-      <div class="level-block">
-        <div class="level-title">📜 Diploma Courses</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('D.Pharm')"><i class="fa-solid fa-circle-info"></i> D.Pharm (Diploma in Pharmacy)</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's & Doctorate Degrees</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Pharm')"><i class="fa-solid fa-circle-info"></i> B.Pharm (Bachelor of Pharmacy)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('Pharm.D')"><i class="fa-solid fa-circle-info"></i> Pharm.D (Doctor of Pharmacy)</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🏛️ Master's Degrees (PG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('M.Pharm')"><i class="fa-solid fa-circle-info"></i> M.Pharm (Pharmaceutics, Pharmacology)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. Nursing -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-user-nurse" style="color: var(--blue);"></i> Nursing</div>
-      <div class="level-block">
-        <div class="level-title">📜 Diploma Courses</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('ANM Nursing')"><i class="fa-solid fa-circle-info"></i> ANM Nursing</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('GNM Nursing')"><i class="fa-solid fa-circle-info"></i> GNM Nursing</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's Degrees</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Sc Nursing')"><i class="fa-solid fa-circle-info"></i> B.Sc Nursing</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('Post Basic B.Sc Nursing')"><i class="fa-solid fa-circle-info"></i> Post Basic B.Sc Nursing</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 6. Engineering & Technology -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-gear" style="color: var(--blue);"></i> Engineering & Technology</div>
-      <div class="level-block">
-        <div class="level-title">📜 Diploma Courses</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('Polytechnic Diploma')"><i class="fa-solid fa-circle-info"></i> Polytechnic Diploma</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's Degrees (UG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Tech CSE')"><i class="fa-solid fa-circle-info"></i> B.Tech Computer Science (CSE)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Tech AI-ML')"><i class="fa-solid fa-circle-info"></i> B.Tech AI & Machine Learning</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Tech Mechanical')"><i class="fa-solid fa-circle-info"></i> B.Tech Mechanical Engineering</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Tech Civil')"><i class="fa-solid fa-circle-info"></i> B.Tech Civil Engineering</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 7. Management & Business -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-chart-line" style="color: var(--blue);"></i> Management & Business</div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's Degrees (UG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('BBA')"><i class="fa-solid fa-circle-info"></i> BBA (General / Marketing / HR)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('BMS')"><i class="fa-solid fa-circle-info"></i> BMS (Management Studies)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('BHM')"><i class="fa-solid fa-circle-info"></i> BHM (Hotel Management)</button>
-        </div>
-      </div>
-      <div class="level-block">
-        <div class="level-title">🏛️ Master's Degrees (PG)</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('MBA')"><i class="fa-solid fa-circle-info"></i> MBA (HR, Finance, Marketing, IT)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('PGDM')"><i class="fa-solid fa-circle-info"></i> PGDM (Post Graduate Diploma)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 8. Computer Applications & IT -->
-    <div class="stream-card">
-      <div class="stream-head"><i class="fa-solid fa-laptop-code" style="color: var(--blue);"></i> Computer Applications & IT</div>
-      <div class="level-block">
-        <div class="level-title">🎓 Bachelor's & Master's Degrees</div>
-        <div class="course-pills">
-          <button type="button" class="course-pill" onclick="showCourseDetails('BCA')"><i class="fa-solid fa-circle-info"></i> BCA (Computer Applications)</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('B.Sc IT')"><i class="fa-solid fa-circle-info"></i> B.Sc Information Technology</button>
-          <button type="button" class="course-pill" onclick="showCourseDetails('MCA')"><i class="fa-solid fa-circle-info"></i> MCA (Master of Computer Apps)</button>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Modal Lead Form -->
-  <div id="courseModal" class="modal-overlay" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <span class="close-modal" onclick="closeCourseModal()">&times;</span>
-      <span class="form-badge">COURSE & ADMISSION DESK</span>
-      <h3 id="modalCourseTitle" style="color: var(--navy); font-size: 1.2rem; margin: 10px 0 6px;"></h3>
+  <!-- Course Inquiry Modal -->
+  <div class="modal-backdrop" id="courseInquiryModal">
+    <div class="modal-window" style="max-width: 540px;">
+      <button class="modal-close-icon" onclick="closeCourseModal()">&times;</button>
+      <div style="font-size:0.75rem; font-weight:800; color:var(--cyan-neon); text-transform:uppercase; letter-spacing:0.8px;">Course Admission Desk</div>
+      <h2 id="modalCourseTitle" style="font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:6px;">Course Inquiry</h2>
       
-      <div class="details-box" style="margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 10px;">
-        <h4 style="margin: 0 0 6px;"><i class="fa-regular fa-clock" style="color: var(--blue);"></i> Duration: <span id="modalDuration" style="font-weight: normal;"></span></h4>
-        <h4 style="margin: 0;"><i class="fa-solid fa-user-check" style="color: #10b981;"></i> Eligibility: <span id="modalEligibility" style="font-weight: normal; font-size: 0.85rem;"></span></h4>
+      <div class="modal-banner">
+        <div id="modalDur" style="font-size:0.86rem; font-weight:700; color:var(--cyan-neon);"><i class="fa-regular fa-clock"></i> Duration: 3 Years</div>
+        <div id="modalElig" style="font-size:0.82rem; color:#cbd5e1; margin-top:2px;"><i class="fa-solid fa-circle-check"></i> Eligibility: 10+2 Pass</div>
       </div>
 
-      <form onsubmit="handleCourseInquirySubmit(event)">
-        <input type="hidden" id="formCourseName">
+      <form onsubmit="handleCourseSubmit(event)">
+        <input type="hidden" id="hiddenCourse" value="">
 
-        <div class="form-group">
+        <div class="side-form-group">
           <label>Student Full Name</label>
-          <input type="text" id="inquiryName" placeholder="Enter full name" required>
+          <input type="text" id="cName" placeholder="Enter full name" required>
         </div>
 
-        <div class="form-group">
-          <label>Mobile / WhatsApp Number</label>
-          <input type="tel" id="inquiryPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+        <div class="side-form-group">
+          <label>WhatsApp Number</label>
+          <input type="tel" id="cPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="side-form-group">
             <label>City</label>
-            <input type="text" id="inquiryCity" placeholder="City" required>
+            <input type="text" id="cCity" placeholder="City" required>
           </div>
-          <div class="form-group">
+          <div class="side-form-group">
             <label>State</label>
-            <input type="text" id="inquiryState" placeholder="State" required>
+            <input type="text" id="cState" placeholder="State" required>
           </div>
         </div>
 
-        <button type="submit" class="apply-inquiry-btn">Submit Course Inquiry</button>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="side-form-group">
+            <label>Qualification</label>
+            <select id="cQual">
+              <option value="12th Standard">12th Standard</option>
+              <option value="Graduation (UG)">Graduation (UG)</option>
+              <option value="10th / Diploma">10th / Diploma</option>
+            </select>
+          </div>
+          <div class="side-form-group">
+            <label>Score / Percentage</label>
+            <input type="text" id="cScore" placeholder="e.g. 75%">
+          </div>
+        </div>
+
+        <button type="submit" id="cBtn" class="submit-counselling-btn"><i class="fa-solid fa-paper-plane"></i> Submit Course Inquiry</button>
       </form>
     </div>
   </div>
 
+  <!-- Complete Rich Footer -->
   <footer class="footer">
-    <div class="container footer-container">
-      <div>
-        <div class="footer-logo">Career<span>sathi</span></div>
-        <p>Careersathi (a venture of Dadhich Admission Consultancy) provides end-to-end admission guidance and course selection support across India.</p>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:12px;">Career<span>sathi</span></div>
+        <p>Careersathi is India's leading tech-enabled university discovery & career counselling platform. We guide students toward verified institutions with transparent fee structures.</p>
       </div>
-      <div>
-        <h4>Contact Info</h4>
-        <p>📍 Bhilwara, Rajasthan - 311001</p>
-        <p>📞 +91 76270 94562</p>
-        <p>✉️ Amitvyasav561@gmail.com</p>
+
+      <div class="footer-col">
+        <h4><i class="fa-solid fa-compass"></i> Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="courses.html">All Courses & Streams</a></li>
+          <li><a href="index.html#smartFinderSection">College Search Finder</a></li>
+          <li><a href="admin.html">Admin CRM Portal</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4><i class="fa-solid fa-graduation-cap"></i> Major Streams</h4>
+        <ul class="footer-links">
+          <li><a href="courses.html">Engineering & Tech</a></li>
+          <li><a href="courses.html">Management & MBA</a></li>
+          <li><a href="courses.html">Computer & IT</a></li>
+          <li><a href="courses.html">Pharmacy & Nursing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4><i class="fa-solid fa-headset"></i> Admission Helpline</h4>
+        <div class="footer-contact-item">
+          <i class="fa-brands fa-whatsapp" style="color:#22c55e;"></i>
+          <span><strong>WhatsApp:</strong> +91 76270 94562</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <span><strong>Call Support:</strong> +91 76270 94562</span>
+        </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 Careersathi.com | All Rights Reserved.</p>
+
+    <div class="footer-bottom-row">
+      <div style="color: var(--text-muted); font-size: 0.88rem;">
+        &copy; 2026 Careersathi. All Rights Reserved. Right Guidance, Right Career.
+      </div>
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <a href="https://wa.me/917627094562" target="_blank" style="color: #22c55e; font-size: 1.25rem;"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="admin.html" style="color: var(--text-muted); font-size: 0.88rem; text-decoration: none; font-weight: 700;"><i class="fa-solid fa-shield-halved"></i> Admin Desk</a>
+      </div>
     </div>
   </footer>
 
-  <script>
-    const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTlzZsxh0Zsj6c9NJsYvAJY4NOhV2ayTUYPa82G_zayn2zW1wUuU3wrFTFHZJ_gIiTqg/exec";
-    const YOUR_WHATSAPP_NUMBER = "917627094562";
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20need%20course%20guidance" target="_blank" class="wa-float">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
-    const courseDatabase = {
-      'B.Sc General': { duration: '3 Years', eligibility: '10+2 Passed with PCM/PCB min 45% aggregate.' },
-      'B.Sc Biotech': { duration: '3 Years', eligibility: '10+2 Passed with PCB/PCM min 50% aggregate.' },
-      'B.Sc Microbiology': { duration: '3 Years', eligibility: '10+2 Passed with PCB min 50% aggregate.' },
-      'B.Sc Forensic Science': { duration: '3 Years', eligibility: '10+2 Passed in Science stream min 50%.' },
-      'M.Sc Science': { duration: '2 Years', eligibility: 'B.Sc degree in relevant subject min 50%.' },
-      'B.Com General': { duration: '3 Years', eligibility: '10+2 Passed in Commerce/Science/Arts min 40%.' },
-      'B.Com Honors': { duration: '3 Years', eligibility: '10+2 Passed with Commerce/Maths min 50%.' },
-      'B.Com Banking & Finance': { duration: '3 Years', eligibility: '10+2 Passed in Commerce/Science min 45%.' },
-      'B.Com Taxation': { duration: '3 Years', eligibility: '10+2 Passed min 45% aggregate.' },
-      'M.Com': { duration: '2 Years', eligibility: 'B.Com degree min 45-50% aggregate.' },
-      'BA General': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 36-40%.' },
-      'BA Journalism': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 45%.' },
-      'BA Psychology': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 45%.' },
-      'BSW': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 45%.' },
-      'MA Arts': { duration: '2 Years', eligibility: 'Graduation in BA/relevant stream min 45%.' },
-      'MSW': { duration: '2 Years', eligibility: 'Graduation in BSW/BA or any stream min 45%.' },
-      'D.Pharm': { duration: '2 Years', eligibility: '10+2 Passed with PCB or PCM min 45%.' },
-      'B.Pharm': { duration: '4 Years', eligibility: '10+2 Passed with PCB/PCM min 45%.' },
-      'Pharm.D': { duration: '6 Years', eligibility: '10+2 Passed with PCB/PCM or D.Pharm.' },
-      'M.Pharm': { duration: '2 Years', eligibility: 'B.Pharm degree min 55% aggregate.' },
-      'ANM Nursing': { duration: '2 Years', eligibility: '10+2 Passed in Arts/Commerce/Science min 40% (Only Females).' },
-      'GNM Nursing': { duration: '3 Years', eligibility: '10+2 Passed in Science/Arts min 40-45%.' },
-      'B.Sc Nursing': { duration: '4 Years', eligibility: '10+2 Passed with PCB & English min 45%.' },
-      'Post Basic B.Sc Nursing': { duration: '2 Years', eligibility: '10+2 + GNM Nursing pass.' },
-      'Polytechnic Diploma': { duration: '3 Years', eligibility: 'Class 10th Passed min 35-45%.' },
-      'B.Tech CSE': { duration: '4 Years', eligibility: '10+2 Passed with PCM min 45%.' },
-      'B.Tech AI-ML': { duration: '4 Years', eligibility: '10+2 Passed with PCM min 50%.' },
-      'B.Tech Mechanical': { duration: '4 Years', eligibility: '10+2 Passed with PCM min 45%.' },
-      'B.Tech Civil': { duration: '4 Years', eligibility: '10+2 Passed with PCM min 45%.' },
-      'BBA': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 45%.' },
-      'BMS': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 50%.' },
-      'BHM': { duration: '3-4 Years', eligibility: '10+2 Passed in any stream min 45%.' },
-      'MBA': { duration: '2 Years', eligibility: 'Graduation in any discipline min 50%.' },
-      'PGDM': { duration: '2 Years', eligibility: 'Graduation in any discipline min 50%.' },
-      'BCA': { duration: '3 Years', eligibility: '10+2 Passed in any stream min 45%.' },
-      'B.Sc IT': { duration: '3 Years', eligibility: '10+2 Passed in Science/Maths min 45%.' },
-      'MCA': { duration: '2 Years', eligibility: 'BCA / B.Sc CS / Graduate with Maths.' }
+  <script src="colleges-data.js"></script>
+  <script>
+    const COMPLETE_STREAM_HIERARCHY = {
+      "Engineering & Technology": {
+        icon: "fa-gears",
+        diploma: [
+          { name: "Diploma in Mechanical Engineering", duration: "3 Years", elig: "10th Pass (35%)" },
+          { name: "Diploma in Civil Engineering", duration: "3 Years", elig: "10th Pass (35%)" },
+          { name: "Diploma in Computer Science", duration: "3 Years", elig: "10th Pass (35%)" },
+          { name: "Diploma in Electrical & Electronics", duration: "3 Years", elig: "10th Pass (35%)" }
+        ],
+        bachelor: [
+          { name: "B.Tech Computer Science (CSE)", duration: "4 Years", elig: "10+2 with PCM (50%)" },
+          { name: "B.Tech AI & Data Science", duration: "4 Years", elig: "10+2 with PCM (50%)" },
+          { name: "B.Tech Cyber Security", duration: "4 Years", elig: "10+2 with PCM (50%)" },
+          { name: "B.Tech Information Technology", duration: "4 Years", elig: "10+2 with PCM (50%)" },
+          { name: "B.Tech Mechanical Engineering", duration: "4 Years", elig: "10+2 with PCM (45%)" },
+          { name: "B.Tech Civil Engineering", duration: "4 Years", elig: "10+2 with PCM (45%)" }
+        ],
+        master: [
+          { name: "M.Tech Computer Science", duration: "2 Years", elig: "B.Tech / BE in CSE / IT" },
+          { name: "M.Tech Structural Engineering", duration: "2 Years", elig: "B.Tech in Civil Engg" },
+          { name: "M.Tech VLSI & Embedded Systems", duration: "2 Years", elig: "B.Tech in ECE / EE" }
+        ]
+      },
+      "Management & Business": {
+        icon: "fa-briefcase",
+        diploma: [
+          { name: "Diploma in Business Administration", duration: "1 Year", elig: "10+2 Pass" },
+          { name: "Diploma in Digital Marketing", duration: "1 Year", elig: "10+2 Pass" }
+        ],
+        bachelor: [
+          { name: "BBA General", duration: "3 Years", elig: "10+2 in Any Stream (45%)" },
+          { name: "BBA Digital Marketing", duration: "3 Years", elig: "10+2 in Any Stream (50%)" },
+          { name: "BBA Banking & Financial Services", duration: "3 Years", elig: "10+2 with Commerce/Math" },
+          { name: "BBA Aviation & Tourism", duration: "3 Years", elig: "10+2 in Any Stream (45%)" }
+        ],
+        master: [
+          { name: "MBA Finance", duration: "2 Years", elig: "Graduation (Min 50%)" },
+          { name: "MBA Marketing", duration: "2 Years", elig: "Graduation (Min 50%)" },
+          { name: "MBA Human Resource (HR)", duration: "2 Years", elig: "Graduation (Min 50%)" },
+          { name: "MBA Business Analytics", duration: "2 Years", elig: "Graduation with Math/Stats" },
+          { name: "Executive MBA", duration: "1-2 Years", elig: "Graduation + Work Experience" }
+        ]
+      },
+      "Computer Applications & IT": {
+        icon: "fa-laptop-code",
+        diploma: [
+          { name: "Diploma in Computer Applications (DCA)", duration: "1 Year", elig: "10+2 Any Stream" },
+          { name: "Post Graduate Diploma in Computer Applications (PGDCA)", duration: "1 Year", elig: "Graduation Pass" }
+        ],
+        bachelor: [
+          { name: "BCA (Bachelor of Computer Applications)", duration: "3 Years", elig: "10+2 Any Stream (Maths preferred)" },
+          { name: "BCA Cloud Computing & DevOps", duration: "3 Years", elig: "10+2 Any Stream (50%)" },
+          { name: "BCA Artificial Intelligence", duration: "3 Years", elig: "10+2 Any Stream (50%)" },
+          { name: "BCA Data Analytics", duration: "3 Years", elig: "10+2 Any Stream (50%)" }
+        ],
+        master: [
+          { name: "MCA (Master of Computer Applications)", duration: "2 Years", elig: "BCA / B.Sc / Any Degree with Math" },
+          { name: "MCA AI & Machine Learning", duration: "2 Years", elig: "BCA / B.Tech / B.Sc IT" },
+          { name: "MCA Full Stack Development", duration: "2 Years", elig: "BCA / Graduation with CS" }
+        ]
+      },
+      "Pharmacy & Healthcare": {
+        icon: "fa-prescription-bottle-medical",
+        diploma: [
+          { name: "D.Pharm (Diploma in Pharmacy)", duration: "2 Years", elig: "10+2 with PCB / PCM (50%)" }
+        ],
+        bachelor: [
+          { name: "B.Pharm (Bachelor of Pharmacy)", duration: "4 Years", elig: "10+2 with PCB / PCM (50%)" },
+          { name: "Pharm.D (Doctor of Pharmacy)", duration: "6 Years", elig: "10+2 with PCB / PCM (50%)" }
+        ],
+        master: [
+          { name: "M.Pharm (Pharmaceutics)", duration: "2 Years", elig: "B.Pharm (Min 55%)" },
+          { name: "M.Pharm (Pharmacology)", duration: "2 Years", elig: "B.Pharm (Min 55%)" }
+        ]
+      },
+      "Nursing & Clinical Sciences": {
+        icon: "fa-user-nurse",
+        diploma: [
+          { name: "GNM (General Nursing & Midwifery)", duration: "3 Years", elig: "10+2 with PCB/English (40%)" },
+          { name: "ANM (Auxiliary Nursing Midwifery)", duration: "2 Years", elig: "10+2 in Any Stream (40%)" }
+        ],
+        bachelor: [
+          { name: "B.Sc Nursing", duration: "4 Years", elig: "10+2 with PCB & English (45-50%)" },
+          { name: "Post Basic B.Sc Nursing", duration: "2 Years", elig: "10+2 + GNM Registered" }
+        ],
+        master: [
+          { name: "M.Sc Nursing", duration: "2 Years", elig: "B.Sc Nursing + 1 Yr Exp" }
+        ]
+      },
+      "Commerce & Finance": {
+        icon: "fa-chart-pie",
+        diploma: [
+          { name: "Diploma in Banking & Insurance", duration: "1 Year", elig: "10+2 with Commerce" },
+          { name: "Diploma in Tax & Accounting", duration: "1 Year", elig: "10+2 Pass" }
+        ],
+        bachelor: [
+          { name: "B.Com (General)", duration: "3 Years", elig: "10+2 with Commerce / Math" },
+          { name: "B.Com (Honours)", duration: "3 Years", elig: "10+2 with Commerce (50%)" },
+          { name: "B.Com Banking & Insurance", duration: "3 Years", elig: "10+2 Commerce / Math" },
+          { name: "B.Com Accounting & Finance", duration: "3 Years", elig: "10+2 Commerce" }
+        ],
+        master: [
+          { name: "M.Com (Master of Commerce)", duration: "2 Years", elig: "B.Com / BBA (50%)" }
+        ]
+      },
+      "Science Stream": {
+        icon: "fa-flask-vial",
+        diploma: [
+          { name: "Diploma in Medical Lab Technology (DMLT)", duration: "2 Years", elig: "10+2 with Science" }
+        ],
+        bachelor: [
+          { name: "B.Sc Computer Science", duration: "3 Years", elig: "10+2 with PCM (50%)" },
+          { name: "B.Sc Biotechnology", duration: "3 Years", elig: "10+2 with PCB (50%)" },
+          { name: "B.Sc Agriculture (Hons)", duration: "4 Years", elig: "10+2 with PCB / PCM (50%)" },
+          { name: "B.Sc Microbiology", duration: "3 Years", elig: "10+2 with PCB (50%)" }
+        ],
+        master: [
+          { name: "M.Sc Data Science", duration: "2 Years", elig: "B.Sc with Math / CS / Stats" },
+          { name: "M.Sc Biotechnology", duration: "2 Years", elig: "B.Sc in Life Sciences" }
+        ]
+      }
     };
 
-    function showCourseDetails(courseName) {
-      const data = courseDatabase[courseName] || { duration: '3-4 Years', eligibility: '10+2 Passed from a recognized board.' };
-      document.getElementById('modalCourseTitle').innerText = courseName;
-      document.getElementById('modalDuration').innerText = data.duration;
-      document.getElementById('modalEligibility').innerText = data.eligibility;
-      document.getElementById('formCourseName').value = courseName;
-      document.getElementById('courseModal').style.display = 'flex';
+    function renderHierarchyPage() {
+      const container = document.getElementById('streamHierarchyContainer');
+      container.innerHTML = '';
+
+      Object.keys(COMPLETE_STREAM_HIERARCHY).forEach(streamName => {
+        const streamData = COMPLETE_STREAM_HIERARCHY[streamName];
+
+        function createCards(courses) {
+          if (!courses || courses.length === 0) return '<p style="color:var(--text-muted); font-size:0.85rem;">Programs updating soon.</p>';
+          return courses.map(c => `
+            <div class="c-badge-card">
+              <div>
+                <h4>${c.name}</h4>
+                <div class="c-meta-row"><span>Duration:</span><strong>${c.duration}</strong></div>
+                <div class="c-meta-row"><span>Eligibility:</span><strong>${c.elig}</strong></div>
+              </div>
+              <button class="c-inquire-btn" onclick="openCourseModal('${c.name}', '${c.duration}', '${c.elig}')">
+                <i class="fa-solid fa-paper-plane"></i> Apply / Inquire
+              </button>
+            </div>
+          `).join('');
+        }
+
+        const html = `
+          <section class="stream-block-wrapper">
+            <h2 class="stream-main-title"><i class="fa-solid ${streamData.icon}"></i> ${streamName}</h2>
+
+            <div class="level-heading"><i class="fa-solid fa-scroll"></i> 1. Diploma & Polytechnic Programs</div>
+            <div class="courses-grid-row">${createCards(streamData.diploma)}</div>
+
+            <div class="level-heading ug"><i class="fa-solid fa-graduation-cap"></i> 2. Bachelor's Degrees (UG)</div>
+            <div class="courses-grid-row">${createCards(streamData.bachelor)}</div>
+
+            <div class="level-heading pg"><i class="fa-solid fa-award"></i> 3. Master's Degrees (PG)</div>
+            <div class="courses-grid-row">${createCards(streamData.master)}</div>
+          </section>
+        `;
+
+        container.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    function openCourseModal(course, dur, elig) {
+      document.getElementById('modalCourseTitle').innerText = `Enquiry for ${course}`;
+      document.getElementById('hiddenCourse').value = course;
+      document.getElementById('modalDur').innerHTML = `<i class="fa-regular fa-clock"></i> Duration: ${dur}`;
+      document.getElementById('modalElig').innerHTML = `<i class="fa-solid fa-circle-check"></i> Eligibility: ${elig}`;
+      document.getElementById('courseInquiryModal').style.display = 'flex';
     }
 
     function closeCourseModal() {
-      document.getElementById('courseModal').style.display = 'none';
+      document.getElementById('courseInquiryModal').style.display = 'none';
     }
 
-    async function handleCourseInquirySubmit(e) {
+    async function handleCourseSubmit(e) {
       e.preventDefault();
-      
-      const cityVal = document.getElementById('inquiryCity').value.trim();
-      const stateVal = document.getElementById('inquiryState').value.trim();
-      const studentName = document.getElementById('inquiryName').value.trim();
-      const studentPhone = document.getElementById('inquiryPhone').value.trim();
-      const courseVal = document.getElementById('formCourseName').value;
-      
-      const leadData = {
-        college_preference: "Course Inquiry: " + courseVal,
-        student_name: studentName,
-        phone: studentPhone,
-        location: `${cityVal}, ${stateVal}`,
-        course: courseVal,
+      const btn = document.getElementById('cBtn');
+      btn.innerText = "Submitting...";
+      btn.disabled = true;
+
+      const course = document.getElementById('hiddenCourse').value;
+      const payload = {
+        student_name: document.getElementById('cName').value.trim(),
+        phone: document.getElementById('cPhone').value.trim(),
+        course: `${course} (${document.getElementById('cQual').value} - Score: ${document.getElementById('cScore').value})`,
+        location: `${document.getElementById('cCity').value.trim()}, ${document.getElementById('cState').value.trim()}`,
         status: "New"
       };
 
-      // Supabase Lead Insert
-      if (window.supabaseClient) {
-        try {
-          await window.supabaseClient.from('leads').insert([leadData]);
-        } catch (err) {
-          console.warn("Supabase lead error:", err);
+      try {
+        if (supabaseClient) {
+          await supabaseClient.from('leads').insert([payload]);
         }
+        alert("Enquiry submitted successfully! Our counsellor will connect with you on WhatsApp.");
+        closeCourseModal();
+        e.target.reset();
+      } catch (err) {
+        alert("Request noted! Connecting soon.");
+        closeCourseModal();
+      } finally {
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Course Inquiry';
+        btn.disabled = false;
       }
-
-      // Apps Script Webhook
-      fetch(GOOGLE_SHEET_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(leadData)
-      });
-
-      const waText = `*New Course Inquiry - Careersathi.com*%0A` +
-                     `*Course:* ${encodeURIComponent(courseVal)}%0A` +
-                     `*Student Name:* ${encodeURIComponent(studentName)}%0A` +
-                     `*Phone:* ${encodeURIComponent(studentPhone)}%0A` +
-                     `*Location:* ${encodeURIComponent(leadData.location)}`;
-
-      window.open(`https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${waText}`, '_blank');
-      alert(`Thank you ${studentName}! Your inquiry for ${courseVal} has been submitted successfully.`);
-      closeCourseModal();
-      e.target.reset();
     }
+
+    window.addEventListener('DOMContentLoaded', renderHierarchyPage);
   </script>
 </body>
 </html>
