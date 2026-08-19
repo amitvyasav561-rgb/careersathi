@@ -16,7 +16,7 @@
       z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px;
     }
     .login-card {
-      background: rgba(30, 27, 75, 0.9);
+      background: rgba(30, 27, 75, 0.95);
       border: 1px solid rgba(6, 182, 212, 0.4);
       border-radius: 20px; padding: 35px 30px; width: 100%; max-width: 420px;
       text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
@@ -37,10 +37,10 @@
 
     .admin-nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
     .admin-tab-btn {
-      padding: 10px 20px; border-radius: 10px; border: 1px solid var(--line, #cbd5e1);
-      background: #fff; font-weight: 800; cursor: pointer; color: var(--muted, #64748b);
+      padding: 10px 20px; border-radius: 10px; border: 1px solid #cbd5e1;
+      background: #fff; font-weight: 800; cursor: pointer; color: #64748b;
     }
-    .admin-tab-btn.active { background: #1e1b4b; color: #fff; }
+    .admin-tab-btn.active { background: #1e1b4b; color: #fff; border-color: #1e1b4b; }
 
     .admin-card {
       background: #fff; border: 1px solid #e2e8f0;
@@ -226,10 +226,10 @@
 
   <script src="colleges-data.js"></script>
   <script>
-    // Fallback Supabase client initialization
+    // Fallback Supabase client initialization with correct credentials
     if (typeof supabaseClient === 'undefined' || !supabaseClient) {
-      const SUPABASE_URL = "https://vkkaftopquwieibqinip.supabase.co";
-      const SUPABASE_ANON_KEY = "sb_publishable_yJxOkZ3K85E85q8BwOnnoQ_uOHk..."; 
+      const SUPABASE_URL = "https://vkkafkopquwieibqinip.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZra2Fma29wcXV3aWVpYnFpbmlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjA0MDEsImV4cCI6MjEwMjY5NjQwMX0.QIGbprbPGan2LRvbKDgM-iEd6H21Se_4IngTFnmvVfE"; 
       window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
@@ -265,7 +265,7 @@
           showDashboard();
         }
       } catch (err) {
-        alert("Browser blocked network call! Please open this folder in VS Code with 'Live Server' or deploy to Netlify instead of direct file:/// opening.");
+        alert("Authentication request failed. Please ensure the site is accessed via https://statuesque-kangaroo-946783.netlify.app/admin.html");
         btn.innerHTML = '<i class="fa-solid fa-lock"></i> Secure Login';
         btn.disabled = false;
       }

@@ -1,9 +1,8 @@
 // ==========================================
-// 1. SUPABASE CLIENT CONFIGURATION
+// 1. SUPABASE LIVE CLIENT CONFIGURATION
 // ==========================================
-const SUPABASE_URL = "https://vkkaftopquwieibqinip.supabase.co";
-// Supabase Dashboard -> Settings -> API Keys se copy ki gayi key yahan replace karein:
-const SUPABASE_ANON_KEY = "sb_publishable_yJxOkZ3K85E85q8BwOnnoQ_uOHk..."; 
+const SUPABASE_URL = "https://vkkafkopquwieibqinip.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZra2Fma29wcXV3aWVpYnFpbmlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjA0MDEsImV4cCI6MjEwMjY5NjQwMX0.QIGbprbPGan2LRvbKDgM-iEd6H21Se_4IngTFnmvVfE";
 
 let supabaseClient = null;
 if (typeof supabase !== 'undefined' && supabase.createClient) {
@@ -36,7 +35,7 @@ const streamCourseMap = {
   "Nursing": ["B.Sc Nursing", "GNM", "Post Basic B.Sc Nursing"]
 };
 
-// Fallback static dataset in case network is disconnected
+// Fallback static dataset
 let collegesData = [
   {
     id: 1,
@@ -61,7 +60,7 @@ let collegesData = [
 // ==========================================
 async function loadAllData() {
   if (!supabaseClient) {
-    console.warn("Supabase client not loaded. Running in offline/fallback mode.");
+    console.warn("Supabase client not loaded. Running in fallback mode.");
     return collegesData;
   }
 
