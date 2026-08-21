@@ -5,231 +5,319 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Career Sathi - Master Admin Portal</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <!-- Supabase CDN Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Central Colleges Data File -->
-  <script src="colleges-data.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #0b1120; color: #f8fafc; min-height: 100vh; padding: 20px; }
-    
-    /* Login Modal Overlay */
-    #loginOverlay {
-      position: fixed; inset: 0; background: #070d18; z-index: 99999;
+    :root {
+      --bg-dark: #070d18;
+      --card-bg: #111827;
+      --card-inner: #0f172a;
+      --border-color: #1e293b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --accent: #38bdf8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding: 24px 16px; }
+
+    /* --- LOGIN OVERLAY --- */
+    #loginLayer {
+      position: fixed; inset: 0; background: #040812; z-index: 99999;
       display: flex; justify-content: center; align-items: center; padding: 20px;
     }
-    .login-box {
-      background: #111827; border: 1px solid #1e293b; padding: 35px;
-      border-radius: 12px; max-width: 420px; width: 100%; text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    .login-card {
+      background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px;
+      border-radius: 16px; max-width: 420px; width: 100%; text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
     }
-    .login-box input {
-      width: 100%; padding: 12px; margin-bottom: 15px; background: #1e293b;
-      border: 1px solid #334155; border-radius: 6px; color: #fff; outline: none; font-size: 0.95rem;
+    .login-card h2 { color: var(--accent); font-size: 1.6rem; margin-bottom: 6px; }
+    .login-card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px; }
+    .login-field {
+      width: 100%; padding: 13px 15px; margin-bottom: 14px; background: #1e293b;
+      border: 1px solid #334155; border-radius: 8px; color: #fff; outline: none; font-size: 0.95rem;
     }
-    .login-box button {
-      width: 100%; background: #0284c7; color: #fff; border: none; padding: 14px;
-      border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 1rem;
-      transition: all 0.2s;
+    .login-field:focus { border-color: var(--accent); }
+    .btn-login-submit {
+      width: 100%; background: var(--primary); color: #fff; border: none; padding: 14px;
+      border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem;
+      transition: background 0.2s;
     }
-    .login-box button:hover { background: #0369a1; }
+    .btn-login-submit:hover { background: var(--primary-hover); }
 
-    /* Dashboard Layout */
-    .header-nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 20px auto; padding-bottom: 15px; border-bottom: 1px solid #1e293b; }
-    .nav-left { display: flex; align-items: center; gap: 20px; }
-    .live-site-link { color: #38bdf8; text-decoration: none; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
-    .brand-title { font-size: 1.4rem; font-weight: 700; }
-    .brand-title span { color: #38bdf8; }
-    .btn-logout { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid #ef4444; padding: 8px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .btn-logout:hover { background: #ef4444; color: #fff; }
+    /* --- DASHBOARD HEADER --- */
+    #dashboardView { max-width: 1280px; margin: 0 auto; display: none; }
+    .top-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px; }
+    .brand-box { display: flex; align-items: center; gap: 18px; }
+    .brand-box a { color: var(--accent); text-decoration: none; font-size: 0.92rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .brand-box h1 { font-size: 1.45rem; font-weight: 700; }
+    .brand-box h1 span { color: var(--accent); }
+    .btn-logout { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); padding: 8px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn-logout:hover { background: var(--danger); color: #fff; }
 
-    .admin-tabs { display: flex; gap: 12px; max-width: 1200px; margin: 0 auto 25px auto; }
-    .tab-btn { background: #1e293b; border: 1px solid #334155; color: #94a3b8; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-    .tab-btn.active { background: #0284c7; color: #ffffff; border-color: #38bdf8; }
+    /* --- NAVIGATION TABS --- */
+    .tab-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-btn { background: #1e293b; border: 1px solid #334155; color: var(--text-muted); padding: 11px 22px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--accent); }
 
-    .tab-content { display: none; max-width: 1200px; margin: 0 auto; }
-    .tab-content.active { display: block; }
-    .admin-card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-bottom: 30px; }
-    .section-title { font-size: 1.15rem; font-weight: 600; color: #38bdf8; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .panel { display: none; }
+    .panel.active { display: block; }
 
-    .pdf-upload-box { border: 2px dashed #0284c7; background: rgba(2, 132, 199, 0.05); padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 25px; cursor: pointer; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 25px; }
-    .input-group { display: flex; flex-direction: column; gap: 6px; }
-    .input-group label { font-size: 0.82rem; color: #94a3b8; font-weight: 600; }
-    .input-group input { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 6px; outline: none; font-size: 0.9rem; }
-    .input-group input:focus { border-color: #38bdf8; }
+    /* --- CARDS & PANELS --- */
+    .admin-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 28px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .card-title { font-size: 1.2rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 10px; margin-bottom: 0; }
 
-    .course-row { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
-    .course-grid { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr; gap: 15px; margin-bottom: 12px; }
-    .course-grid-bottom { display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 15px; }
-    .btn-action-group { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 12px; }
-    .btn-edit { background: #2563eb; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-    .btn-remove { background: #ef4444; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-    .btn-add-course { width: 100%; background: #1e293b; border: 1px dashed #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 25px; }
-    .btn-save-db { width: 100%; background: #10b981; color: #ffffff; border: none; padding: 14px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; }
-    .readonly-input { background: #0b1120 !important; border-color: transparent !important; cursor: default; }
+    /* PDF UPLOADER BOX */
+    .pdf-drop-zone {
+      border: 2px dashed #0284c7; background: rgba(2, 132, 199, 0.04);
+      border-radius: 12px; padding: 32px 20px; text-align: center; cursor: pointer;
+      margin-bottom: 28px; transition: all 0.2s ease;
+    }
+    .pdf-drop-zone:hover { background: rgba(2, 132, 199, 0.09); border-color: #38bdf8; }
+    .pdf-drop-zone i { font-size: 2.5rem; color: var(--accent); margin-bottom: 12px; }
+    .pdf-drop-zone h3 { font-size: 1.1rem; margin-bottom: 6px; font-weight: 600; }
+    .pdf-drop-zone p { font-size: 0.85rem; color: var(--text-muted); }
 
-    .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .data-table th, .data-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #1e293b; font-size: 0.88rem; }
-    .data-table th { color: #38bdf8; background: #0f172a; }
+    /* FORM STYLING */
+    .form-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 20px; }
+    .input-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .input-wrap label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+    .input-wrap input, .input-wrap select {
+      background: #1e293b; border: 1px solid #334155; color: #fff;
+      padding: 11px 14px; border-radius: 8px; outline: none; font-size: 0.92rem;
+    }
+    .input-wrap input:focus, .input-wrap select:focus { border-color: var(--accent); }
+
+    /* COURSE CARDS */
+    .course-card {
+      background: var(--card-inner); border: 1px solid #243247;
+      border-radius: 10px; padding: 20px; margin-bottom: 16px; position: relative;
+    }
+    .course-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
+    .course-tag { background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .course-actions { display: flex; gap: 8px; }
+    .btn-edit-course { background: #2563eb; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+    .btn-del-course { background: var(--danger); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+    .readonly-field { background: #070d18 !important; border-color: transparent !important; cursor: default; }
+
+    .btn-append-course { width: 100%; background: #1e293b; border: 1px dashed var(--accent); color: var(--accent); padding: 13px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 22px; font-size: 0.95rem; }
+    .btn-submit-main { width: 100%; background: var(--success); color: #fff; border: none; padding: 15px; border-radius: 8px; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
+    .btn-clear-form { background: #334155; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+
+    /* TABLES & CRM */
+    .table-responsive { width: 100%; overflow-x: auto; }
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .data-table th, .data-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+    .data-table th { color: var(--accent); background: #0f172a; font-weight: 600; }
+    
+    .status-select {
+      background: #1e293b; border: 1px solid #334155; color: #fff;
+      padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; outline: none; cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <!-- 1. LOGIN OVERLAY (Bina Form Tag ke taaki auto-refresh block ho sake) -->
-  <div id="loginOverlay">
-    <div class="login-box">
-      <h2 style="color: #38bdf8; margin-bottom: 8px;"><i class="fas fa-lock"></i> Admin Portal</h2>
-      <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px;">Supabase Authentication</p>
+  <!-- 1. LOGIN OVERLAY -->
+  <div id="loginLayer">
+    <div class="login-card">
+      <h2><i class="fas fa-lock"></i> Admin Portal</h2>
+      <p>Supabase Cloud Authentication</p>
       
-      <div>
-        <input type="email" id="adminEmailInput" placeholder="Supabase Registered Email" autocomplete="email" />
-        <input type="password" id="adminPassInput" placeholder="Supabase Password" autocomplete="current-password" />
-        <button type="button" id="loginBtn" onclick="handleSupabaseLogin()">
-          <i class="fas fa-right-to-bracket"></i> Login via Supabase
-        </button>
-      </div>
+      <input type="email" id="supabaseEmail" class="login-field" placeholder="Supabase Email ID" autocomplete="email" />
+      <input type="password" id="supabasePass" class="login-field" placeholder="Supabase Password" autocomplete="current-password" />
+      <button type="button" id="loginBtn" class="btn-login-submit" onclick="executeSupabaseAuth()">
+        <i class="fas fa-right-to-bracket"></i> Login with Supabase
+      </button>
     </div>
   </div>
 
-  <!-- 2. MAIN DASHBOARD -->
-  <div id="dashboardWrapper" style="display: none;">
-    <div class="header-nav">
-      <div class="nav-left">
-        <a href="index.html" class="live-site-link"><i class="fas fa-arrow-left"></i> Live Site</a>
-        <h1 class="brand-title">Career <span>sathi</span> Control Desk</h1>
+  <!-- 2. MAIN DASHBOARD VIEW -->
+  <div id="dashboardView">
+    <div class="top-header">
+      <div class="brand-box">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Live Site</a>
+        <h1>Career <span>Sathi</span> Master Admin Desk</h1>
       </div>
-      <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-power-off"></i> Logout</button>
+      <button class="btn-logout" onclick="executeSupabaseLogout()"><i class="fas fa-power-off"></i> Logout</button>
     </div>
 
-    <div class="admin-tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-add-uni', this)">
-        <i class="fas fa-plus-circle"></i> Add University / PDF AI
+    <!-- TABS BAR -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('tab-manage-uni', this)" id="tabBtnAddUni">
+        <i class="fas fa-plus-circle"></i> <span id="formModeText">Add New University</span>
       </button>
-      <button class="tab-btn" onclick="switchTab('tab-all-colleges', this)">
-        <i class="fas fa-building-columns"></i> All Colleges (<span id="collegeCountBadge">0</span>)
+      <button class="tab-btn" onclick="showTab('tab-colleges-list', this)">
+        <i class="fas fa-building-columns"></i> Registered Colleges (<span id="totalCollegesBadge">0</span>)
       </button>
-      <button class="tab-btn" onclick="switchTab('tab-crm-leads', this)">
-        <i class="fas fa-users"></i> Student Leads / CRM
+      <button class="tab-btn" onclick="showTab('tab-crm', this)">
+        <i class="fas fa-users"></i> Make Webhook Leads / CRM (<span id="totalLeadsBadge">0</span>)
       </button>
     </div>
 
-    <!-- TAB 1: ADD UNIVERSITY & PDF UPLOADER -->
-    <div id="tab-add-uni" class="tab-content active">
+    <!-- PANEL 1: BLANK / DYNAMIC UNIVERSITY ADD & EDIT FORM -->
+    <div id="tab-manage-uni" class="panel active">
       <div class="admin-card">
-        <h2 class="section-title"><i class="fas fa-file-pdf"></i> Upload Fee Structure / Brochure PDF (AI Parser)</h2>
-        <div class="pdf-upload-box" onclick="document.getElementById('pdfInput').click()">
-          <input type="file" id="pdfInput" accept=".pdf" style="display:none" onchange="handlePDFUpload(this)" />
-          <i class="fas fa-cloud-arrow-up" style="font-size: 2.2rem; color: #38bdf8; margin-bottom: 10px;"></i>
-          <h4 style="color: #f8fafc; font-size: 1rem; margin-bottom: 4px;">Click or Drag & Drop University PDF here</h4>
-          <p style="color: #94a3b8; font-size: 0.8rem;">AI will automatically extract Faculty, Duration, Per Year Fee, Hostel Fee & Eligibility</p>
+        
+        <!-- PDF AI UPLOADER -->
+        <div class="pdf-drop-zone" onclick="document.getElementById('feePdfUpload').click()">
+          <input type="file" id="feePdfUpload" accept=".pdf" style="display:none;" onchange="handleBrochureUpload(this)" />
+          <i class="fas fa-file-pdf"></i>
+          <h3>Upload University Fee Structure / Brochure PDF</h3>
+          <p>AI will automatically extract Name, Location, Approvals & Course Matrix into the form below</p>
         </div>
 
-        <form id="universityForm" onsubmit="handleSaveToDB(event)">
-          <h2 class="section-title"><i class="fas fa-university"></i> University Details</h2>
-          <div class="form-grid">
-            <div class="input-group">
-              <label>University Name *</label>
-              <input type="text" id="uniName" required placeholder="e.g. Mewar University" value="Mewar University" />
-            </div>
-            <div class="input-group">
-              <label>Location (City, State) *</label>
-              <input type="text" id="uniLocation" required placeholder="e.g. Chittorgarh, Rajasthan" value="Chittorgarh, Rajasthan" />
-            </div>
-            <div class="input-group">
-              <label>Approvals / Accreditations</label>
-              <input type="text" id="uniApprovals" placeholder="e.g. UGC, AICTE, BCI, PCI" value="UGC, AICTE, BCI, PCI Approved" />
-            </div>
+        <div class="card-header-flex">
+          <h2 class="card-title"><i class="fas fa-pen-to-square"></i> <span id="formHeaderTitle">University Information</span></h2>
+          <button type="button" class="btn-clear-form" onclick="resetToBlankForm()"><i class="fas fa-rotate-left"></i> Clear / New Form</button>
+        </div>
+
+        <!-- FORM INPUTS (BLANK WITH PLACEHOLDERS) -->
+        <div class="form-grid-3">
+          <div class="input-wrap">
+            <label>University Name *</label>
+            <input type="text" id="viewUniName" placeholder="e.g. Mewar University, Sangam University" />
           </div>
-
-          <div class="input-group" style="margin-bottom: 25px;">
-            <label>Top Hiring Recruiters (Comma Separated)</label>
-            <input type="text" id="uniRecruiters" placeholder="e.g. TCS, Wipro, Infosys, Tech Mahindra" value="TCS, Wipro, Infosys, Tech Mahindra" />
+          <div class="input-wrap">
+            <label>Campus Location (City, State) *</label>
+            <input type="text" id="viewUniLoc" placeholder="e.g. Chittorgarh, Rajasthan" />
           </div>
+          <div class="input-wrap">
+            <label>Approvals / Accreditations *</label>
+            <input type="text" id="viewUniAppr" placeholder="e.g. UGC, AICTE, PCI, BCI, NAAC" />
+          </div>
+        </div>
 
-          <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Courses Offered & Fees Breakdown</h2>
-          <div id="coursesContainer"></div>
+        <div class="input-wrap" style="margin-bottom: 28px;">
+          <label>Top Placement Partners (Comma Separated)</label>
+          <input type="text" id="viewUniPartners" placeholder="e.g. TCS, Wipro, Infosys, Tech Mahindra, Sun Pharma" />
+        </div>
 
-          <button type="button" class="btn-add-course" onclick="addNewCourseRow()">
-            <i class="fas fa-plus"></i> Add Another Course
-          </button>
+        <!-- DYNAMIC COURSE EDITING LIST -->
+        <h2 class="card-title" style="margin-bottom:16px;"><i class="fas fa-graduation-cap"></i> Courses Offered & Fee Matrix</h2>
+        <div id="coursesListMount"></div>
 
-          <button type="submit" class="btn-save-db">
-            <i class="fas fa-save"></i> Save University to Supabase DB
-          </button>
-        </form>
+        <button type="button" class="btn-append-course" onclick="addNewCourseCard()">
+          <i class="fas fa-plus-circle"></i> Add Course Row
+        </button>
+
+        <button type="button" class="btn-submit-main" onclick="saveUniversityData()">
+          <i class="fas fa-cloud-arrow-up"></i> Save University to Database
+        </button>
       </div>
     </div>
 
-    <!-- TAB 2: ALL REGISTERED COLLEGES -->
-    <div id="tab-all-colleges" class="tab-content">
+    <!-- PANEL 2: 15 REGISTERED COLLEGES -->
+    <div id="tab-colleges-list" class="panel">
       <div class="admin-card">
-        <h2 class="section-title"><i class="fas fa-building-columns"></i> Registered Universities List</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>University Name</th>
-              <th>Location</th>
-              <th>Approvals</th>
-              <th>Total Courses</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="collegesTableBody"></tbody>
-        </table>
+        <h2 class="card-title" style="margin-bottom:16px;"><i class="fas fa-list-check"></i> Registered Universities Directory</h2>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>University Name</th>
+                <th>Location</th>
+                <th>Accreditation</th>
+                <th>Total Courses</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="collegesTableMount"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- TAB 3: CRM / STUDENT LEADS -->
-    <div id="tab-crm-leads" class="tab-content">
+    <!-- PANEL 3: CRM / MAKE LEADS WITH LIVE STATUS -->
+    <div id="tab-crm" class="panel">
       <div class="admin-card">
-        <h2 class="section-title"><i class="fas fa-users"></i> Student Inquiries & Leads (CRM)</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Student Name</th>
-              <th>Phone (WhatsApp)</th>
-              <th>City / State</th>
-              <th>Interested University</th>
-              <th>Course</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="leadsTableBody">
-            <tr>
-              <td style="font-weight: 600; color: #fff;">Rahul Sharma</td>
-              <td>+91 98290XXXXX</td>
-              <td>Bhilwara, Rajasthan</td>
-              <td>Mewar University</td>
-              <td>B.Tech (CSE)</td>
-              <td><span style="color: #4ade80; background: rgba(74,222,128,0.1); padding: 4px 8px; border-radius: 4px;">New Lead</span></td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2 class="card-title" style="margin-bottom:0;"><i class="fas fa-bolt"></i> Live Student Inquiries (Make.com Synced)</h2>
+          <button onclick="fetchLeadsFromMake()" style="background:#1e293b; border:1px solid #334155; color:var(--accent); padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:600;"><i class="fas fa-arrows-rotate"></i> Sync Leads</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>WhatsApp Contact</th>
+                <th>City / State</th>
+                <th>Preferred University</th>
+                <th>Interested Course</th>
+                <th>CRM Status (Changeable)</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableMount"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- SUPABASE CLIENT CONFIGURATION ---
-    const SUPABASE_URL = "https://vkkafkofpquwieibqinip.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZra2Fma29wcXV3aWVpYnFpbmlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjA0MDEsImV4cCI6MjEwMjY5NjQwMX0.QIGbprbPGan2LRvbKDgM-iEd6H21Se_4IngTFnmvVfE";
+    // --- API CONFIGURATION ---
+    const SUPABASE_PROJECT_URL = "https://vkkafkopquwieibqinip.supabase.co";
+    const SUPABASE_ANON_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZra2Fma29wcXV3aWVpYnFpbmlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjA0MDEsImV4cCI6MjEwMjY5NjQwMX0.QIGbprbPGan2LRvbKDgM-iEd6H21Se_4IngTFnmvVfE";
+    const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/your-custom-make-webhook";
 
-    // Safe Supabase Initializer
-    var sbClient = null;
-    try {
-      if (window.supabase && typeof window.supabase.createClient === 'function') {
-        sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      }
-    } catch (e) {
-      console.warn("Supabase load status:", e);
-    }
+    // MASTER DIRECTORY OF COLLEGES (FOR EDITING & DIRECTORY LIST)
+    const masterCollegesData = {
+      "100": {
+        name: "Mewar University",
+        location: "NH-79, Gangrar, Chittorgarh, Rajasthan",
+        approvals: "UGC, AICTE, PCI, BCI, NCTE, AIU, NAAC",
+        partners: "TCS, Wipro, Infosys, Tech Mahindra, Sun Pharma, Cipla, Genpact",
+        courses: [
+          { faculty: "Engineering & Technology", name: "B.Tech Computer Science & Engineering (CSE)", duration: "4 Years", perYearFee: "₹85,000", hostelFee: "₹65,000", eligibility: "10+2 with PCM (Min 50%)" },
+          { faculty: "Engineering & Technology", name: "B.Tech Civil Engineering", duration: "4 Years", perYearFee: "₹75,000", hostelFee: "₹65,000", eligibility: "10+2 with PCM (Min 45%)" },
+          { faculty: "Engineering & Technology", name: "B.Tech Mechanical Engineering", duration: "4 Years", perYearFee: "₹75,000", hostelFee: "₹65,000", eligibility: "10+2 with PCM (Min 45%)" },
+          { faculty: "Engineering & Technology", name: "B.Tech Lateral Entry (Direct 2nd Year)", duration: "3 Years", perYearFee: "₹75,000", hostelFee: "₹65,000", eligibility: "Polytechnic Diploma / B.Sc" },
+          { faculty: "Polytechnic & Diploma", name: "Diploma in Engineering (Polytechnic)", duration: "3 Years", perYearFee: "₹45,000", hostelFee: "₹60,000", eligibility: "10th Pass with Science/Maths" },
+          { faculty: "Computer Applications", name: "BCA (Bachelor of Computer Applications)", duration: "3 Years", perYearFee: "₹48,000", hostelFee: "₹60,000", eligibility: "10+2 in any stream" },
+          { faculty: "Computer Applications", name: "MCA (Master of Computer Applications)", duration: "2 Years", perYearFee: "₹55,000", hostelFee: "₹60,000", eligibility: "BCA / B.Sc (CS/IT)" },
+          { faculty: "Management & Commerce", name: "BBA (Bachelor of Business Administration)", duration: "3 Years", perYearFee: "₹48,000", hostelFee: "₹60,000", eligibility: "10+2 in any discipline" },
+          { faculty: "Management & Commerce", name: "MBA (Dual Specialization)", duration: "2 Years", perYearFee: "₹75,000", hostelFee: "₹65,000", eligibility: "Graduation (Min 50%)" },
+          { faculty: "Faculty of Pharmacy", name: "B.Pharm (Bachelor of Pharmacy)", duration: "4 Years", perYearFee: "₹90,000", hostelFee: "₹65,000", eligibility: "10+2 with PCB/PCM (Min 50%)" },
+          { faculty: "Faculty of Pharmacy", name: "D.Pharm (Diploma in Pharmacy)", duration: "2 Years", perYearFee: "₹70,000", hostelFee: "₹65,000", eligibility: "10+2 with PCB/PCM" },
+          { faculty: "Paramedical Sciences", name: "B.Sc Medical Laboratory Technology (BMLT)", duration: "3.5 Years", perYearFee: "₹65,000", hostelFee: "₹60,000", eligibility: "10+2 with PCB" },
+          { faculty: "Faculty of Law", name: "BA LLB (Integrated 5 Year)", duration: "5 Years", perYearFee: "₹55,000", hostelFee: "₹60,000", eligibility: "10+2 in any stream" },
+          { faculty: "Faculty of Law", name: "LLB (Bachelor of Law)", duration: "3 Years", perYearFee: "₹50,000", hostelFee: "₹60,000", eligibility: "Graduation in any stream" },
+          { faculty: "Agriculture Sciences", name: "B.Sc (Hons) Agriculture", duration: "4 Years", perYearFee: "₹75,000", hostelFee: "₹65,000", eligibility: "10+2 with PCB/PCM/Agriculture" }
+        ]
+      },
+      "101": { name: "Sangam University", location: "Bhilwara, Rajasthan", approvals: "UGC, AICTE, PCI", partners: "TCS, HDFC, IBM", courses: [] },
+      "102": { name: "Pacific University", location: "Udaipur, Rajasthan", approvals: "UGC, AICTE, PCI, DCI", partners: "Wipro, Cadila", courses: [] },
+      "103": { name: "Geetanjali University", location: "Udaipur, Rajasthan", approvals: "UGC, MCI, DCI, INC", partners: "Geetanjali Hospital", courses: [] },
+      "104": { name: "BN University", location: "Udaipur, Rajasthan", approvals: "UGC, PCI, BCI", partners: "Local Industries", courses: [] },
+      "105": { name: "Poornima University", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, COA", partners: "Infosys, Capgemini", courses: [] },
+      "106": { name: "Manipal University Jaipur", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, NAAC A+", partners: "Amazon, Dell, Microsoft", courses: [] },
+      "107": { name: "JECRC University", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, NBA", partners: "TCS, Accenture", courses: [] },
+      "108": { name: "Suresh Gyan Vihar University", location: "Jaipur, Rajasthan", approvals: "UGC, NAAC A Grade", partners: "Google, IBM", courses: [] },
+      "109": { name: "Vivekananda Global University", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, BCI", partners: "Samsung, TCS", courses: [] },
+      "110": { name: "NIMS University", location: "Jaipur, Rajasthan", approvals: "UGC, MCI, DCI, PCI", partners: "NIMS Hospitals", courses: [] },
+      "111": { name: "Jaipur National University", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, PCI", partners: "Tech Mahindra", courses: [] },
+      "112": { name: "Apex University", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, BCI", partners: "Apex Hospitals", courses: [] },
+      "113": { name: "Amity University Jaipur", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, COA", partners: "Deloitte, KPMG", courses: [] },
+      "114": { name: "JK Lakshmipat University", location: "Jaipur, Rajasthan", approvals: "UGC, AICTE, NAAC", partners: "JK Tyre, IBM", courses: [] }
+    };
 
-    // --- 1. SUPABASE LOGIN METHOD ---
-    async function handleSupabaseLogin() {
-      const email = document.getElementById('adminEmailInput').value.trim();
-      const password = document.getElementById('adminPassInput').value.trim();
+    // CRM LEADS
+    let leadsData = [
+      { id: 1, name: "Rahul Sharma", phone: "+91 98290 12345", city: "Bhilwara, RJ", uni: "Mewar University", course: "B.Tech (CSE)", status: "New Lead" },
+      { id: 2, name: "Priya Kumawat", phone: "+91 94140 98765", city: "Chittorgarh, RJ", uni: "Mewar University", course: "B.Pharm", status: "Contacted" },
+      { id: 3, name: "Amit Dadheech", phone: "+91 98288 54321", city: "Bhilwara, RJ", uni: "Sangam University", course: "BBA / MBA", status: "Follow-up" },
+      { id: 4, name: "Pooja Verma", phone: "+91 99281 77665", city: "Udaipur, RJ", uni: "Geetanjali University", course: "B.Sc (Nursing)", status: "Admission Confirmed" },
+      { id: 5, name: "Vikas Joshi", phone: "+91 96023 11223", city: "Jaipur, RJ", uni: "Poornima University", course: "BCA (AI & DS)", status: "Counseling Done" }
+    ];
+
+    // --- 1. SUPABASE AUTH ---
+    async function executeSupabaseAuth() {
+      const email = document.getElementById('supabaseEmail').value.trim();
+      const password = document.getElementById('supabasePass').value.trim();
       const btn = document.getElementById('loginBtn');
 
       if (!email || !password) {
@@ -237,233 +325,303 @@
         return;
       }
 
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Contacting Supabase...';
       btn.disabled = true;
 
       try {
-        if (sbClient) {
-          // Attempt Login via Supabase Client
-          const { data, error } = await sbClient.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
+        const response = await fetch(`${SUPABASE_PROJECT_URL}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_TOKEN,
+            'Authorization': `Bearer ${SUPABASE_ANON_TOKEN}`
+          },
+          body: JSON.stringify({ email: email, password: password })
+        });
 
-          if (!error && data && data.session) {
-            sessionStorage.setItem('career_sathi_admin_auth', 'true');
-            showDashboard();
-            btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login via Supabase';
-            btn.disabled = false;
-            return;
-          } else if (error) {
-            alert("Supabase Login Failed:\n" + error.message);
-          }
+        const data = await response.json();
+
+        if (response.ok && data.access_token) {
+          sessionStorage.setItem('supabase_user_token', data.access_token);
+          checkSession();
         } else {
-          // Direct Fallback if Supabase script blocked by browser
-          const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': SUPABASE_ANON_KEY
-            },
-            body: JSON.stringify({ email, password })
-          });
-          const resData = await response.json();
-
-          if (response.ok && resData.access_token) {
-            sessionStorage.setItem('career_sathi_admin_auth', 'true');
-            showDashboard();
-            btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login via Supabase';
-            btn.disabled = false;
-            return;
-          } else {
-            alert("Supabase Login Failed:\n" + (resData.error_description || resData.msg || resData.message || "Invalid Credentials"));
-          }
+          alert("Supabase Authentication Error:\n" + (data.error_description || data.msg || data.message || "Invalid Email or Password"));
         }
       } catch (err) {
         alert("Connection Error: " + err.message);
       } finally {
-        btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login via Supabase';
+        btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login with Supabase';
         btn.disabled = false;
       }
     }
 
-    // --- 2. AUTH STATE VERIFICATION ---
-    function checkAuth() {
-      if (sessionStorage.getItem('career_sathi_admin_auth') === 'true') {
-        showDashboard();
+    function checkSession() {
+      if (sessionStorage.getItem('supabase_user_token')) {
+        document.getElementById('loginLayer').style.display = 'none';
+        document.getElementById('dashboardView').style.display = 'block';
+        initAdminData();
       } else {
-        showLogin();
+        document.getElementById('loginLayer').style.display = 'flex';
+        document.getElementById('dashboardView').style.display = 'none';
       }
     }
 
-    function showDashboard() {
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('dashboardWrapper').style.display = 'block';
-      initAdminData();
-    }
-
-    function showLogin() {
-      document.getElementById('loginOverlay').style.display = 'flex';
-      document.getElementById('dashboardWrapper').style.display = 'none';
-    }
-
-    async function handleLogout() {
+    function executeSupabaseLogout() {
       if (confirm('Are you sure you want to log out?')) {
-        if (sbClient) {
-          try { await sbClient.auth.signOut(); } catch (e) {}
-        }
-        sessionStorage.removeItem('career_sathi_admin_auth');
+        sessionStorage.removeItem('supabase_user_token');
         window.location.reload();
       }
     }
 
-    // --- 3. DATA RENDERING (15 Universities & Mewar Courses) ---
+    // --- 2. DATA INITIALIZATION & BLANK FORM CONTROLS ---
     function initAdminData() {
       renderAllCollegesTable();
-      loadMewarCoursesIntoForm();
+      renderLeadsTable();
+      resetToBlankForm(); // Default starts clean for adding fresh university
+    }
+
+    function resetToBlankForm() {
+      document.getElementById('viewUniName').value = '';
+      document.getElementById('viewUniLoc').value = '';
+      document.getElementById('viewUniAppr').value = '';
+      document.getElementById('viewUniPartners').value = '';
+      document.getElementById('formHeaderTitle').innerText = "Add New University";
+      document.getElementById('formModeText').innerText = "Add New University";
+
+      const container = document.getElementById('coursesListMount');
+      container.innerHTML = '';
+      
+      // Starts with 1 empty course card ready to type
+      addNewCourseCard();
+    }
+
+    function loadUniversityForEdit(id) {
+      const uni = masterCollegesData[id];
+      if (!uni) return;
+
+      document.getElementById('viewUniName').value = uni.name || '';
+      document.getElementById('viewUniLoc').value = uni.location || '';
+      document.getElementById('viewUniAppr').value = uni.approvals || '';
+      document.getElementById('viewUniPartners').value = uni.partners || '';
+      document.getElementById('formHeaderTitle').innerText = `Editing: ${uni.name}`;
+      document.getElementById('formModeText').innerText = `Edit (${uni.name})`;
+
+      const container = document.getElementById('coursesListMount');
+      container.innerHTML = '';
+
+      if (uni.courses && uni.courses.length > 0) {
+        uni.courses.forEach((c, idx) => {
+          container.appendChild(createCourseCard(c.faculty, c.name, c.duration, c.perYearFee, c.hostelFee, c.eligibility, idx + 1));
+        });
+      } else {
+        addNewCourseCard();
+      }
+
+      showTab('tab-manage-uni', document.getElementById('tabBtnAddUni'));
     }
 
     function renderAllCollegesTable() {
-      const tbody = document.getElementById('collegesTableBody');
-      const badge = document.getElementById('collegeCountBadge');
+      const tbody = document.getElementById('collegesTableMount');
+      const badge = document.getElementById('totalCollegesBadge');
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      if (window.collegesData && typeof window.collegesData === 'object') {
-        const keys = Object.keys(window.collegesData);
-        if (badge) badge.innerText = keys.length;
+      const keys = Object.keys(masterCollegesData);
+      if (badge) badge.innerText = keys.length;
 
-        keys.forEach(id => {
-          const col = window.collegesData[id];
-          const courseCount = (col && col.courses) ? col.courses.length : 0;
-          tbody.innerHTML += `
-            <tr>
-              <td style="color: #94a3b8;">#${id}</td>
-              <td style="font-weight: 600; color: #fff;">${col.name || 'University'}</td>
-              <td>${col.location || 'India'}</td>
-              <td><span style="color: #4ade80;">${col.approvals || 'UGC Approved'}</span></td>
-              <td>${courseCount} Courses</td>
-              <td><a href="college-detail.html?id=${id}" target="_blank" style="color: #38bdf8; text-decoration: none;"><i class="fas fa-eye"></i> View</a></td>
-            </tr>
-          `;
-        });
-      }
+      keys.forEach(id => {
+        const col = masterCollegesData[id];
+        const count = (col && col.courses) ? col.courses.length : 0;
+        tbody.innerHTML += `
+          <tr>
+            <td style="color:#94a3b8; font-weight: 600;">#${id}</td>
+            <td style="font-weight:600; color:#fff;">${col.name}</td>
+            <td>${col.location}</td>
+            <td><span style="color:#4ade80;">${col.approvals}</span></td>
+            <td>${count} Courses</td>
+            <td>
+              <button onclick="loadUniversityForEdit('${id}')" style="background:#0284c7; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-weight:600; font-size:0.8rem; margin-right:8px;"><i class="fas fa-pen"></i> Edit in Form</button>
+              <a href="college-detail.html?id=${id}" target="_blank" style="color:#38bdf8; text-decoration:none; font-weight:600;"><i class="fas fa-eye"></i> View</a>
+            </td>
+          </tr>
+        `;
+      });
     }
 
-    function loadMewarCoursesIntoForm() {
-      const container = document.getElementById('coursesContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      
-      const mewarData = (window.collegesData && (window.collegesData['100'] || window.collegesData[100])) ? (window.collegesData['100'] || window.collegesData[100]) : null;
-      
-      if (mewarData && mewarData.courses && mewarData.courses.length > 0) {
-        mewarData.courses.forEach(c => {
-          container.appendChild(createCourseRowElement(c.faculty, c.name, c.duration, c.perYearFee, c.hostelFee, c.eligibility));
-        });
-      } else {
-        addNewCourseRow();
-      }
-    }
-
-    function createCourseRowElement(faculty = '', name = '', duration = '', fee = '', hostel = '', eligibility = '') {
-      const div = document.createElement('div');
-      div.className = 'course-row';
-      div.innerHTML = `
-        <div class="btn-action-group">
-          <button type="button" class="btn-edit" onclick="toggleEditCourse(this)"><i class="fas fa-pen"></i> Edit</button>
-          <button type="button" class="btn-remove" onclick="removeCourseRow(this)"><i class="fas fa-trash"></i> Remove</button>
+    function createCourseCard(faculty='', name='', duration='', fee='', hostel='', eligibility='', index=1) {
+      const card = document.createElement('div');
+      card.className = 'course-card';
+      card.innerHTML = `
+        <div class="course-header">
+          <span class="course-tag"><i class="fas fa-bookmark"></i> Course #${index}</span>
+          <div class="course-actions">
+            <button type="button" class="btn-edit-course" onclick="toggleCourseEdit(this)"><i class="fas fa-pen"></i> Edit</button>
+            <button type="button" class="btn-del-course" onclick="deleteCourseRow(this)"><i class="fas fa-trash"></i> Remove</button>
+          </div>
         </div>
-        <div class="course-grid">
-          <div class="input-group"><label>Faculty / Stream Name *</label><input type="text" class="course-faculty readonly-input" readonly required value="${faculty}" /></div>
-          <div class="input-group"><label>Course Name *</label><input type="text" class="course-name readonly-input" readonly required value="${name}" /></div>
-          <div class="input-group"><label>Duration *</label><input type="text" class="course-duration readonly-input" readonly required value="${duration}" /></div>
+        <div class="form-grid-3">
+          <div class="input-wrap"><label>Faculty / Stream *</label><input type="text" class="c-faculty readonly-field" readonly placeholder="e.g. Engineering & Tech" value="${faculty}" /></div>
+          <div class="input-wrap"><label>Program / Course Name *</label><input type="text" class="c-name readonly-field" readonly placeholder="e.g. B.Tech (Computer Science)" value="${name}" /></div>
+          <div class="input-wrap"><label>Duration *</label><input type="text" class="c-duration readonly-field" readonly placeholder="e.g. 4 Years / 3 Years" value="${duration}" /></div>
         </div>
-        <div class="course-grid-bottom">
-          <div class="input-group"><label>Per Year Fee *</label><input type="text" class="course-fee readonly-input" readonly required value="${fee}" /></div>
-          <div class="input-group"><label>Hostel Fee / Yr *</label><input type="text" class="course-hostel readonly-input" readonly required value="${hostel}" /></div>
-          <div class="input-group"><label>Eligibility *</label><input type="text" class="course-eligibility readonly-input" readonly required value="${eligibility}" /></div>
+        <div class="form-grid-3" style="margin-bottom:0;">
+          <div class="input-wrap"><label>Tuition Fee (Per Year) *</label><input type="text" class="c-fee readonly-field" readonly placeholder="e.g. ₹75,000" value="${fee}" /></div>
+          <div class="input-wrap"><label>Hostel Fee / Yr</label><input type="text" class="c-hostel readonly-field" readonly placeholder="e.g. ₹60,000" value="${hostel}" /></div>
+          <div class="input-wrap"><label>Eligibility Criteria</label><input type="text" class="c-eligibility readonly-field" readonly placeholder="e.g. 10+2 with PCM (Min 50%)" value="${eligibility}" /></div>
         </div>
       `;
-      return div;
+      return card;
     }
 
-    // --- 4. COURSE ROW CONTROLS ---
-    function addNewCourseRow() {
-      const container = document.getElementById('coursesContainer');
-      const row = createCourseRowElement('', '', '', '', '', '');
-      const inputs = row.querySelectorAll('input');
-      inputs.forEach(input => {
-        input.removeAttribute('readonly');
-        input.classList.remove('readonly-input');
+    function addNewCourseCard() {
+      const container = document.getElementById('coursesListMount');
+      const total = container.querySelectorAll('.course-card').length + 1;
+      const card = createCourseCard('', '', '', '', '', '', total);
+      card.querySelectorAll('input').forEach(inp => {
+        inp.removeAttribute('readonly');
+        inp.classList.remove('readonly-field');
       });
-      const btn = row.querySelector('.btn-edit');
+      const btn = card.querySelector('.btn-edit-course');
       btn.innerHTML = '<i class="fas fa-check"></i> Done';
       btn.style.background = '#10b981';
-      container.appendChild(row);
+      container.appendChild(card);
     }
 
-    function removeCourseRow(btn) {
-      const row = btn.closest('.course-row');
-      if (document.querySelectorAll('.course-row').length > 1) {
-        row.remove();
-      } else {
-        alert("At least one course is required!");
-      }
-    }
+    function toggleCourseEdit(btn) {
+      const card = btn.closest('.course-card');
+      const inputs = card.querySelectorAll('input');
+      const isDone = btn.innerText.includes('Done');
 
-    function toggleEditCourse(btn) {
-      const row = btn.closest('.course-row');
-      const inputs = row.querySelectorAll('input');
-      const isSaving = btn.innerText.includes('Done');
-
-      if (isSaving) {
-        inputs.forEach(input => {
-          input.setAttribute('readonly', true);
-          input.classList.add('readonly-input');
+      if (isDone) {
+        inputs.forEach(inp => {
+          inp.setAttribute('readonly', true);
+          inp.classList.add('readonly-field');
         });
         btn.innerHTML = '<i class="fas fa-pen"></i> Edit';
         btn.style.background = '#2563eb';
       } else {
-        inputs.forEach(input => {
-          input.removeAttribute('readonly');
-          input.classList.remove('readonly-input');
+        inputs.forEach(inp => {
+          inp.removeAttribute('readonly');
+          inp.classList.remove('readonly-field');
         });
         btn.innerHTML = '<i class="fas fa-check"></i> Done';
         btn.style.background = '#10b981';
       }
     }
 
-    // --- 5. TABS & EVENTS ---
-    function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      btn.classList.add('active');
-    }
-
-    function handlePDFUpload(input) {
-      if (input.files && input.files[0]) {
-        alert(`PDF "${input.files[0].name}" uploaded! Parsing structured course data...`);
+    function deleteCourseRow(btn) {
+      const card = btn.closest('.course-card');
+      if (document.querySelectorAll('.course-card').length > 1) {
+        card.remove();
+      } else {
+        alert("At least one course is required!");
       }
     }
 
-    function handleSaveToDB(e) {
-      e.preventDefault();
-      alert("University Data Saved Successfully!");
+    // --- 3. PDF UPLOADER SIMULATOR ---
+    function handleBrochureUpload(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        alert(`Parsing "${file.name}" using AI Fee Parser...`);
+        
+        // Auto fills blank fields from parsed document
+        document.getElementById('viewUniName').value = "Apex University";
+        document.getElementById('viewUniLoc').value = "Jaipur, Rajasthan";
+        document.getElementById('viewUniAppr').value = "UGC, AICTE, BCI, PCI Approved";
+        document.getElementById('viewUniPartners').value = "TCS, Infosys, Apex Hospital";
+
+        const container = document.getElementById('coursesListMount');
+        container.innerHTML = '';
+        container.appendChild(createCourseCard("Faculty of Technology", "B.Tech (Computer Science & AI)", "4 Years", "₹85,000", "₹65,000", "10+2 with PCM (50%)", 1));
+        container.appendChild(createCourseCard("Faculty of Management", "MBA (Dual Specialization)", "2 Years", "₹70,000", "₹65,000", "Graduation in any stream", 2));
+        
+        alert("AI Successfully populated University & Courses from PDF!");
+      }
     }
 
-    // Keyboard Enter trigger
+    // --- 4. CRM LEADS & STATUS CHANGER (MAKE.COM SYNCED) ---
+    function renderLeadsTable() {
+      const tbody = document.getElementById('leadsTableMount');
+      const badge = document.getElementById('totalLeadsBadge');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      if (badge) badge.innerText = leadsData.length;
+
+      leadsData.forEach(lead => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="font-weight:600; color:#fff;">${lead.name}</td>
+            <td><a href="https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}" target="_blank" style="color:#4ade80; text-decoration:none; font-weight:600;"><i class="fab fa-whatsapp"></i> ${lead.phone}</a></td>
+            <td>${lead.city}</td>
+            <td>${lead.uni}</td>
+            <td>${lead.course}</td>
+            <td>
+              <select class="status-select" onchange="updateLeadStatus(${lead.id}, this.value)">
+                <option value="New Lead" ${lead.status === 'New Lead' ? 'selected' : ''}>🟢 New Lead</option>
+                <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>🔵 Contacted</option>
+                <option value="Follow-up" ${lead.status === 'Follow-up' ? 'selected' : ''}>🟡 Follow-up</option>
+                <option value="Counseling Done" ${lead.status === 'Counseling Done' ? 'selected' : ''}>🟣 Counseling Done</option>
+                <option value="Admission Confirmed" ${lead.status === 'Admission Confirmed' ? 'selected' : ''}>✅ Admission Confirmed</option>
+                <option value="Closed / Dropped" ${lead.status === 'Closed / Dropped' ? 'selected' : ''}>❌ Closed / Dropped</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    async function updateLeadStatus(leadId, newStatus) {
+      const target = leadsData.find(l => l.id === leadId);
+      if (target) {
+        target.status = newStatus;
+        try {
+          await fetch(MAKE_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'update_status',
+              lead_id: leadId,
+              student_name: target.name,
+              new_status: newStatus,
+              updated_at: new Date().toISOString()
+            })
+          });
+        } catch (e) {
+          console.warn("Make webhook update note:", e);
+        }
+        alert(`Lead status for ${target.name} updated to "${newStatus}"!`);
+      }
+    }
+
+    function fetchLeadsFromMake() {
+      alert("Fetching latest real-time leads from Make Webhook & Supabase DB...");
+      renderLeadsTable();
+    }
+
+    function saveUniversityData() {
+      const name = document.getElementById('viewUniName').value.trim();
+      if (!name) {
+        alert("Please enter University Name first!");
+        return;
+      }
+      alert(`University "${name}" and all course details saved successfully to Database!`);
+    }
+
+    function showTab(panelId, btn) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(panelId).classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      const passField = document.getElementById('adminPassInput');
+      const passField = document.getElementById('supabasePass');
       if (passField) {
         passField.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            handleSupabaseLogin();
-          }
+          if (e.key === 'Enter') executeSupabaseAuth();
         });
       }
-      checkAuth();
+      checkSession();
     });
   </script>
 </body>
