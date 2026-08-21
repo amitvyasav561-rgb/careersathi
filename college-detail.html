@@ -30,6 +30,28 @@
       background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
       color: #cbd5e1; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem;
     }
+
+    /* Faculty Section Styling */
+    .faculty-block {
+      margin-top: 30px;
+      margin-bottom: 25px;
+    }
+    .faculty-title {
+      color: var(--cyan-neon, #38bdf8);
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--cyan-neon, #38bdf8);
+      padding-left: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .faculty-table-wrap {
+      overflow-x: auto;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
   </style>
 </head>
 <body>
@@ -80,25 +102,13 @@
       </div>
     </div>
 
-    <!-- Full Course Fee Breakdown Table -->
+    <!-- Full Course Fee Breakdown Table (Faculty-wise) -->
     <div style="background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 20px; padding: 30px; backdrop-filter: blur(20px);">
-      <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 15px;"><i class="fa-solid fa-table-list" style="color: var(--cyan-bright);"></i> Complete Course Fee Breakdown & Eligibility</h2>
+      <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 5px;"><i class="fa-solid fa-table-list" style="color: var(--cyan-bright);"></i> Complete Course Fee Breakdown & Eligibility</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Direct scholarship fee matrix & admission criteria.</p>
       
-      <div style="overflow-x: auto;">
-        <table class="modal-fee-table">
-          <thead>
-            <tr>
-              <th>Stream & Course</th>
-              <th>Duration</th>
-              <th>Per-Sem Fee</th>
-              <th>Total Estimated</th>
-              <th>Eligibility</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="dCoursesTableBody"></tbody>
-        </table>
-      </div>
+      <!-- Dynamic Faculty Wise Container -->
+      <div id="facultiesContainer"></div>
     </div>
   </main>
 
@@ -273,35 +283,77 @@
         rBox.innerHTML += `<span class="recruiter-pill">${r}</span>`;
       });
 
-      const tbody = document.getElementById('dCoursesTableBody');
-      tbody.innerHTML = '';
+      const container = document.getElementById('facultiesContainer');
+      container.innerHTML = '';
 
-      if (Array.isArray(currentUniversity.courses) && currentUniversity.courses.length > 0) {
-        currentUniversity.courses.forEach(crs => {
-          const cName = typeof crs === 'string' ? crs : crs.name;
-          const cStream = crs.stream || 'Degree';
-          const cDur = crs.duration || '3-4 Years';
-          const cSem = crs.perSemFee || '₹45,000';
-          const cTot = crs.totalFee || '₹3,60,000';
-          const cElig = crs.eligibility || '10+2 Pass';
+      // Faculty-Wise Rendering Logic
+      let facultyList = [];
 
-          tbody.innerHTML += `
-            <tr>
-              <td><strong>${cName}</strong><br><span style="font-size:0.75rem; color:var(--cyan-neon);">${cStream}</span></td>
-              <td>${cDur}</td>
-              <td style="color:#34d399; font-weight:700;">${cSem}</td>
-              <td>${cTot}</td>
-              <td style="font-size:0.8rem; color:var(--text-muted);">${cElig}</td>
-              <td>
-                <button class="course-apply-table-btn" onclick="openApplyModal('${cName}')">
-                  <i class="fa-solid fa-paper-plane"></i> Apply for this Course
-                </button>
-              </td>
-            </tr>
+      if (currentUniversity.faculties && currentUniversity.faculties.length > 0) {
+        facultyList = currentUniversity.faculties;
+      } else if (currentUniversity.courses && currentUniversity.courses.length > 0) {
+        const grouped = {};
+        currentUniversity.courses.forEach(c => {
+          const fName = c.faculty || "General Degree Programs";
+          if (!grouped[fName]) grouped[fName] = [];
+          grouped[fName].push(c);
+        });
+        facultyList = Object.keys(grouped).map(fName => ({ facultyName: fName, courses: grouped[fName] }));
+      }
+
+      if (facultyList.length > 0) {
+        facultyList.forEach(fac => {
+          let rowsHtml = '';
+          (fac.courses || []).forEach(crs => {
+            const cName = typeof crs === 'string' ? crs : crs.name;
+            const cDur = crs.duration || '3-4 Years';
+            const cPerYear = crs.perYearFee || crs.feePerSem || '₹45,000';
+            const cHostel = crs.hostelFee || crs.hostelFeePerYear || '₹70,000';
+            const cElig = crs.eligibility || '10+2 Pass';
+
+            rowsHtml += `
+              <tr>
+                <td>
+                  <strong>${cName}</strong>
+                </td>
+                <td>${cDur}</td>
+                <td style="color:#34d399; font-weight:700;">${cPerYear}</td>
+                <td style="color:#cbd5e1;">${cHostel}</td>
+                <td style="font-size:0.8rem; color:var(--text-muted);">${cElig}</td>
+                <td>
+                  <button class="course-apply-table-btn" onclick="openApplyModal('${cName}')">
+                    <i class="fa-solid fa-paper-plane"></i> Apply for this Course
+                  </button>
+                </td>
+              </tr>
+            `;
+          });
+
+          container.innerHTML += `
+            <div class="faculty-block">
+              <div class="faculty-title"><i class="fa-solid fa-graduation-cap"></i> ${fac.facultyName}</div>
+              <div class="faculty-table-wrap">
+                <table class="modal-fee-table">
+                  <thead>
+                    <tr>
+                      <th>Stream & Course</th>
+                      <th>Duration</th>
+                      <th>Per Year Fee</th>
+                      <th>Hostel Fee / Yr</th>
+                      <th>Eligibility</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${rowsHtml}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           `;
         });
       } else {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Courses updating. Contact counsellor directly.</td></tr>`;
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Courses updating. Contact counsellor directly.</div>`;
       }
     }
 
