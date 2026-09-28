@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Careersathi | India's Smartest College Discovery Platform</title>
+  <title>Vidyarthi Sathi | The Growth Guide - India's Smartest College Discovery Platform</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="saathi-ai.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,7 +17,7 @@
       margin-bottom: 25px;
     }
     .section-header-block .sub-tag {
-      font-size: 0.78rem; font-weight: 800; color: var(--cyan-neon); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;
+      font-size: 0.78rem; font-weight: 800; color: var(--gold-neon, #fbbf24); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;
     }
     .section-header-block h2 {
       font-size: 1.6rem; font-weight: 900; color: #ffffff;
@@ -38,7 +38,7 @@
       color: #e2e8f0; display: flex; flex-direction: column; align-items: center; gap: 4px;
       transition: all 0.2s;
     }
-    .mou-badge-item:hover { border-color: var(--cyan-bright); background: rgba(6, 182, 212, 0.08); color: var(--cyan-neon); }
+    .mou-badge-item:hover { border-color: var(--gold-neon); background: rgba(245, 158, 11, 0.08); color: var(--gold-neon); }
     .mou-badge-item span { font-size: 0.72rem; color: var(--accent-green); font-weight: 700; }
 
     /* 2. News & Campus Buzz */
@@ -51,13 +51,13 @@
       display: flex; flex-direction: column; justify-content: space-between;
       transition: all 0.25s ease; position: relative; overflow: hidden;
     }
-    .news-buzz-card:hover { transform: translateY(-3px); border-color: var(--cyan-neon); }
+    .news-buzz-card:hover { transform: translateY(-3px); border-color: var(--gold-neon); }
     .news-buzz-card::before {
       content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-      background: linear-gradient(90deg, var(--cyan-neon), var(--blue-electric));
+      background: linear-gradient(90deg, var(--gold-neon), #38bdf8);
     }
     .news-tag {
-      background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);
+      background: rgba(245, 158, 11, 0.15); color: var(--gold-neon); border: 1px solid rgba(245, 158, 11, 0.3);
       padding: 3px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 800; width: fit-content; margin-bottom: 12px;
     }
     .news-buzz-card h3 { font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-bottom: 8px; line-height: 1.4; }
@@ -79,116 +79,11 @@
     .student-profile-row { display: flex; align-items: center; gap: 14px; }
     .student-avatar {
       width: 44px; height: 44px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--cyan-bright), var(--blue-electric));
-      display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #fff;
+      background: linear-gradient(135deg, var(--gold-neon), #d97706);
+      display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #070c18;
     }
     .student-info h4 { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 2px; }
-    .student-info p { font-size: 0.78rem; color: var(--cyan-neon); }
-
-    /* Modern Thank You Modal Styling */
-    .cs-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(7, 11, 20, 0.85);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      padding: 16px;
-      animation: csFadeIn 0.25s ease;
-    }
-
-    .cs-modal-card {
-      background: #0f172a;
-      border: 1px solid rgba(6, 182, 212, 0.35);
-      border-radius: 24px;
-      max-width: 420px;
-      width: 100%;
-      padding: 32px 24px;
-      text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.15);
-      transform: scale(0.95);
-      animation: csPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .cs-modal-icon-wrap {
-      width: 68px;
-      height: 68px;
-      margin: 0 auto 16px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #34d399;
-      font-size: 2rem;
-    }
-
-    .cs-modal-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .cs-modal-desc {
-      font-size: 0.88rem;
-      color: #94a3b8;
-      line-height: 1.5;
-      margin-bottom: 22px;
-    }
-
-    .cs-modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .cs-btn-wa-direct {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #ffffff;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: opacity 0.2s;
-    }
-    .cs-btn-wa-direct:hover {
-      opacity: 0.92;
-    }
-
-    .cs-btn-dismiss {
-      background: rgba(255, 255, 255, 0.06);
-      color: #cbd5e1;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .cs-btn-dismiss:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    @keyframes csFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes csPopIn {
-      to { transform: scale(1); }
-    }
+    .student-info p { font-size: 0.78rem; color: var(--gold-neon); }
   </style>
 </head>
 <body>
@@ -196,30 +91,37 @@
   <div class="ambient-glow"></div>
   <div class="ambient-glow-2"></div>
 
-  <!-- Slide-out Sidebar Drawer -->
+  <!-- Slide-out Sidebar Drawer Overlay -->
   <div class="sidebar-drawer-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Slide-out Sidebar Drawer -->
   <aside class="sidebar-drawer" id="sidebarDrawer">
     <div>
       <div class="sidebar-header">
-        <a href="index.html" class="logo">Career<span>sathi</span></a>
+        <a href="index.html" class="logo">
+          <div>Vidyarthi<span>Sathi</span><small>The Growth Guide</small></div>
+        </a>
         <button class="modal-close-icon" onclick="toggleSidebar()">&times;</button>
       </div>
 
       <ul class="sidebar-nav-list">
         <li class="sidebar-nav-item">
-          <a href="#universitiesSection" onclick="toggleSidebar()"><i class="fa-solid fa-building-columns" style="color:var(--cyan-neon);"></i> Universities</a>
+          <a href="index.html"><i class="fa-solid fa-house" style="color:var(--gold-neon);"></i> Home</a>
         </li>
         <li class="sidebar-nav-item">
-          <a href="courses.html"><i class="fa-solid fa-graduation-cap" style="color:var(--blue-electric);"></i> All Courses & Streams</a>
+          <a href="#universitiesSection" onclick="toggleSidebar()"><i class="fa-solid fa-building-columns" style="color:var(--gold-neon);"></i> Universities</a>
         </li>
         <li class="sidebar-nav-item">
-          <a href="#smartFinderSection" onclick="toggleSidebar()"><i class="fa-solid fa-magnifying-glass" style="color:#38bdf8;"></i> College Finder</a>
+          <a href="courses.html"><i class="fa-solid fa-graduation-cap" style="color:#38bdf8;"></i> All Courses & Streams</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#smartFinderSection" onclick="toggleSidebar()"><i class="fa-solid fa-magnifying-glass" style="color:#fbbf24;"></i> College Finder</a>
         </li>
         <li class="sidebar-nav-item">
           <a href="#mouSection" onclick="toggleSidebar()"><i class="fa-solid fa-handshake" style="color:#a78bfa;"></i> MoU Partners</a>
         </li>
         <li class="sidebar-nav-item">
-          <a href="#newsBuzzSection" onclick="toggleSidebar()"><i class="fa-solid fa-newspaper" style="color:#fbbf24;"></i> News & Buzz</a>
+          <a href="#newsBuzzSection" onclick="toggleSidebar()"><i class="fa-solid fa-newspaper" style="color:#f59e0b;"></i> News & Buzz</a>
         </li>
         <li class="sidebar-nav-item">
           <a href="javascript:void(0)" onclick="toggleSidebar(); openEnquiryModal('', 'Slide Menu Counselling');"><i class="fa-solid fa-headset" style="color:#34d399;"></i> Free 1:1 Counselling</a>
@@ -238,23 +140,22 @@
     </div>
   </aside>
 
-  <!-- Top Navbar -->
+  <!-- Top Navbar (Clean Header: Only Hamburger + Logo + Action Button) -->
   <header class="navbar">
     <div class="nav-left-group">
-      <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open Navigation Menu">
+      <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open Navigation Menu" style="display: flex !important;">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <a href="index.html" class="logo">Career<span>sathi</span></a>
+      <a href="index.html" class="logo">
+        <div>Vidyarthi<span>Sathi</span><small>The Growth Guide</small></div>
+      </a>
     </div>
 
-    <nav class="nav-links">
-      <a href="#universitiesSection">Universities</a>
-      <a href="courses.html">Courses</a>
-      <a href="#smartFinderSection">College Finder</a>
-      <a href="#newsBuzzSection">Campus Buzz</a>
-      <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Admin Portal</a>
-      <a href="javascript:void(0)" onclick="openEnquiryModal('', 'Navbar 1:1 Session')" class="nav-counselling-btn"><i class="fa-solid fa-headset"></i> Free Counselling</a>
-    </nav>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <a href="javascript:void(0)" onclick="openEnquiryModal('', 'Navbar 1:1 Session')" class="nav-counselling-btn">
+        <i class="fa-solid fa-headset"></i> Free Counselling
+      </a>
+    </div>
   </header>
 
   <!-- Hero Section -->
@@ -275,7 +176,7 @@
           <h4>Free Verified Guidance</h4>
           <h3>Not sure what to choose?</h3>
           <p>Tell us your target course, city preference, and 12th qualification. Our experts will shortlist high-ROI options for you.</p>
-          <a href="javascript:void(0)" onclick="openEnquiryModal('', 'Hero Shortlisting')" style="color:var(--cyan-neon); font-weight:800; text-decoration:none; font-size:0.95rem;">Get personalised guidance &rarr;</a>
+          <a href="javascript:void(0)" onclick="openEnquiryModal('', 'Hero Shortlisting')" style="color:var(--gold-neon); font-weight:800; text-decoration:none; font-size:0.95rem;">Get personalised guidance &rarr;</a>
 
           <div class="stats-container">
             <div>
@@ -348,7 +249,7 @@
       
       <section>
         <div style="margin-bottom: 24px;">
-          <div style="font-size:0.75rem; font-weight:800; color:var(--cyan-neon); text-transform:uppercase; letter-spacing:0.8px;">Verified Partner Campuses</div>
+          <div style="font-size:0.75rem; font-weight:800; color:var(--gold-neon); text-transform:uppercase; letter-spacing:0.8px;">Verified Partner Campuses</div>
           <h2 style="font-size:1.5rem; font-weight:800; color:#ffffff;">Top Recommended Private Universities</h2>
           <p style="font-size:0.88rem; color:var(--text-muted);">Compare updated per-semester fees, official packages, and claim scholarship benefits.</p>
         </div>
@@ -365,29 +266,29 @@
 
           <form onsubmit="handleSideLeadSubmit(event)">
             <div class="side-form-group">
-              <label>Student Full Name</label>
+              <label>Student Full Name *</label>
               <input type="text" id="sideLeadName" placeholder="Enter your name" required>
             </div>
 
             <div class="side-form-group">
-              <label>WhatsApp Number</label>
+              <label>WhatsApp Number *</label>
               <input type="tel" id="sideLeadPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
             </div>
 
             <div class="side-form-group">
-              <label>Email Address</label>
+              <label>Email Address *</label>
               <input type="email" id="sideLeadEmail" placeholder="Enter your email address" required>
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
               <div class="side-form-group">
-                <label>State</label>
+                <label>State *</label>
                 <select id="sideLeadState" onchange="syncSideCities()" required>
                   <option value="">Select State</option>
                 </select>
               </div>
               <div class="side-form-group">
-                <label>City</label>
+                <label>City *</label>
                 <select id="sideLeadCity" required>
                   <option value="">Select City</option>
                 </select>
@@ -395,7 +296,7 @@
             </div>
 
             <div class="side-form-group">
-              <label>Target Stream</label>
+              <label>Target Stream *</label>
               <select id="sideLeadStream" onchange="syncSideCourses()" required>
                 <option value="">Select Stream</option>
                 <option value="Engineering">Engineering</option>
@@ -410,7 +311,7 @@
             </div>
 
             <div class="side-form-group">
-              <label>Target Course</label>
+              <label>Target Course *</label>
               <select id="sideLeadCourse" required>
                 <option value="">Select Course</option>
               </select>
@@ -439,7 +340,7 @@
     <div class="mou-showcase-card">
       <div class="mou-logos-grid">
         <div class="mou-badge-item">
-          <i class="fa-solid fa-building-columns" style="font-size:1.4rem; color:var(--cyan-neon); margin-bottom:4px;"></i>
+          <i class="fa-solid fa-building-columns" style="font-size:1.4rem; color:var(--gold-neon); margin-bottom:4px;"></i>
           SAGE University
           <span>Official MoU Partner</span>
         </div>
@@ -464,7 +365,7 @@
           <span>Direct Scholarship</span>
         </div>
         <div class="mou-badge-item">
-          <i class="fa-solid fa-shield-check" style="font-size:1.4rem; color:var(--cyan-bright); margin-bottom:4px;"></i>
+          <i class="fa-solid fa-shield-check" style="font-size:1.4rem; color:#38bdf8; margin-bottom:4px;"></i>
           Parul University
           <span>Verified Network</span>
         </div>
@@ -488,7 +389,7 @@
         </div>
         <div class="news-meta-footer">
           <span><i class="fa-regular fa-clock"></i> Updated Today</span>
-          <a href="javascript:void(0)" onclick="openEnquiryModal('Scholarship Desk', 'Scholarship Claim')" style="color:var(--cyan-neon); text-decoration:none;">Check Eligibility &rarr;</a>
+          <a href="javascript:void(0)" onclick="openEnquiryModal('Scholarship Desk', 'Scholarship Claim')" style="color:var(--gold-neon); text-decoration:none;">Check Eligibility &rarr;</a>
         </div>
       </div>
 
@@ -500,19 +401,19 @@
         </div>
         <div class="news-meta-footer">
           <span><i class="fa-regular fa-clock"></i> 2 Days Ago</span>
-          <a href="courses.html" style="color:var(--cyan-neon); text-decoration:none;">Explore Tech Courses &rarr;</a>
+          <a href="courses.html" style="color:var(--gold-neon); text-decoration:none;">Explore Tech Courses &rarr;</a>
         </div>
       </div>
 
       <div class="news-buzz-card">
         <div>
-          <div class="news-tag" style="background:rgba(245, 158, 11, 0.15); color:#fbbf24; border-color:rgba(245, 158, 11, 0.3);">Healthcare Alert</div>
+          <div class="news-tag">Healthcare Alert</div>
           <h3>Pharmacy & Nursing Council Updates Direct Allotment Guidelines</h3>
           <p>Mandatory seat registration announced for B.Pharm and B.Sc Nursing batches 2026-27 with transparent fee ceiling controls.</p>
         </div>
         <div class="news-meta-footer">
           <span><i class="fa-regular fa-clock"></i> 3 Days Ago</span>
-          <a href="javascript:void(0)" onclick="openEnquiryModal('Healthcare Desk', 'B.Pharm / B.Sc Nursing')" style="color:var(--cyan-neon); text-decoration:none;">Inquire Seats &rarr;</a>
+          <a href="javascript:void(0)" onclick="openEnquiryModal('Healthcare Desk', 'B.Pharm / B.Sc Nursing')" style="color:var(--gold-neon); text-decoration:none;">Inquire Seats &rarr;</a>
         </div>
       </div>
     </div>
@@ -531,7 +432,7 @@
           <div class="review-stars">
             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
           </div>
-          <p class="review-quote">"Careersathi helped me compare B.Tech fee structures clearly with zero hidden charges. Got direct admission at SAGE University with scholarship support!"</p>
+          <p class="review-quote">"Vidyarthi Sathi helped me compare B.Tech fee structures clearly with zero hidden charges. Got direct admission at SAGE University with scholarship support!"</p>
         </div>
         <div class="student-profile-row">
           <div class="student-avatar">R</div>
@@ -550,7 +451,7 @@
           <p class="review-quote">"I was confused between MBA Marketing and Business Analytics. The counsellor connected on WhatsApp and guided me through the right ROI campus."</p>
         </div>
         <div class="student-profile-row">
-          <div class="student-avatar" style="background:linear-gradient(135deg, #10b981, #059669);">P</div>
+          <div class="student-avatar" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff;">P</div>
           <div class="student-info">
             <h4>Priya Verma</h4>
             <p>MBA Finance • Medi-Caps</p>
@@ -566,7 +467,7 @@
           <p class="review-quote">"Smooth documentation and genuine guidance for D.Pharm admission. Transparent fee details saved my family a lot of hassle."</p>
         </div>
         <div class="student-profile-row">
-          <div class="student-avatar" style="background:linear-gradient(135deg, #a855f7, #6366f1);">A</div>
+          <div class="student-avatar" style="background:linear-gradient(135deg, #a855f7, #6366f1); color:#fff;">A</div>
           <div class="student-info">
             <h4>Ankit Joshi</h4>
             <p>B.Pharm • SGVU Jaipur</p>
@@ -580,8 +481,10 @@
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="logo" style="margin-bottom:12px;">Career<span>sathi</span></div>
-        <p>Careersathi is India's leading tech-enabled university discovery & career counselling platform. We guide students toward verified institutions with transparent fee structures and placement records.</p>
+        <div class="logo" style="margin-bottom:12px;">
+          <div>Vidyarthi<span>Sathi</span><small>The Growth Guide</small></div>
+        </div>
+        <p>Vidyarthi Sathi is India's leading tech-enabled university discovery & career counselling platform. We guide students toward verified institutions with transparent fee structures and placement records.</p>
       </div>
 
       <div class="footer-col">
@@ -626,7 +529,7 @@
 
     <div class="footer-bottom-row">
       <div style="color: var(--text-muted); font-size: 0.88rem;">
-        &copy; 2026 Careersathi. All Rights Reserved. Right Guidance, Right Career.
+        &copy; 2026 Vidyarthi Sathi. All Rights Reserved. Right Guidance, Right Career.
       </div>
       <div style="display: flex; gap: 20px; align-items: center;">
         <a href="https://wa.me/917627094562" target="_blank" style="color: #22c55e; font-size: 1.25rem;"><i class="fa-brands fa-whatsapp"></i></a>
@@ -637,46 +540,46 @@
 
   <!-- Fast Modal: Auto-filled Enquiry Form -->
   <div class="modal-backdrop" id="autoFillEnquiryModal">
-    <div class="modal-window" style="max-width: 540px;">
+    <div class="modal-window">
       <button class="modal-close-icon" onclick="closeModal('autoFillEnquiryModal')">&times;</button>
       
-      <div style="font-size:0.75rem; font-weight:800; color:var(--cyan-neon); text-transform:uppercase; letter-spacing:0.8px;">Direct Admission Application</div>
+      <div style="font-size:0.75rem; font-weight:800; color:var(--gold-neon); text-transform:uppercase; letter-spacing:0.8px;">Direct Admission Application</div>
       <h2 style="font-size:1.45rem; font-weight:800; color:#fff; margin-bottom:6px;">Submit Course Inquiry</h2>
       <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">Zero consultation charges. Instant WhatsApp guidance.</p>
 
       <form onsubmit="handleAutoFillLeadSubmit(event)">
         <div class="side-form-group">
           <label>Selected University</label>
-          <input type="text" id="autoUnivName" readonly style="background:rgba(255,255,255,0.05); color:var(--cyan-neon); font-weight:700; border-color:rgba(6,182,212,0.4);">
+          <input type="text" id="autoUnivName" readonly style="background:rgba(255,255,255,0.05); color:var(--gold-neon); font-weight:700; border-color:var(--border-glow);">
         </div>
 
         <div class="side-form-group">
           <label>Selected Course Program</label>
-          <input type="text" id="autoCourseName" readonly style="background:rgba(255,255,255,0.05); color:var(--cyan-neon); font-weight:700; border-color:rgba(6,182,212,0.4);">
+          <input type="text" id="autoCourseName" readonly style="background:rgba(255,255,255,0.05); color:var(--gold-neon); font-weight:700; border-color:var(--border-glow);">
         </div>
 
         <div class="side-form-group">
-          <label>Student Full Name</label>
+          <label>Student Full Name *</label>
           <input type="text" id="autoStudentName" placeholder="Enter full name" required>
         </div>
 
         <div class="side-form-group">
-          <label>WhatsApp Number</label>
+          <label>WhatsApp Number *</label>
           <input type="tel" id="autoStudentPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
         </div>
 
         <div class="side-form-group">
-          <label>Email Address</label>
+          <label>Email Address *</label>
           <input type="email" id="autoStudentEmail" placeholder="Enter your email address" required>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
           <div class="side-form-group">
-            <label>Current City</label>
+            <label>Current City *</label>
             <input type="text" id="autoStudentCity" placeholder="e.g. Bhilwara" required>
           </div>
           <div class="side-form-group">
-            <label>State</label>
+            <label>State *</label>
             <input type="text" id="autoStudentState" placeholder="e.g. Rajasthan" required>
           </div>
         </div>
@@ -696,7 +599,7 @@
           </div>
         </div>
 
-        <button type="submit" id="autoSubmitBtn" class="submit-counselling-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);"><i class="fa-solid fa-check"></i> Submit Admission Enquiry</button>
+        <button type="submit" id="autoSubmitBtn" class="submit-counselling-btn"><i class="fa-solid fa-check"></i> Submit Admission Enquiry</button>
       </form>
     </div>
   </div>
@@ -708,10 +611,10 @@
         <i class="fa-solid fa-check"></i>
       </div>
       <h3 class="cs-modal-title">Enquiry Received! 🎉</h3>
-      <p class="cs-modal-desc">Thank you for reaching out to <strong>Careersathi</strong>. Our expert admission counselor will review your profile and connect with you on WhatsApp shortly.</p>
+      <p class="cs-modal-desc">Thank you for reaching out to <strong>Vidyarthi Sathi</strong>. Our expert admission counselor will review your profile and connect with you on WhatsApp shortly.</p>
       
       <div class="cs-modal-actions">
-        <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20just%20submitted%20an%20admission%20inquiry." target="_blank" class="cs-btn-wa-direct">
+        <a href="https://wa.me/917627094562?text=Hello%20Vidyarthi%20Sathi,%20I%20just%20submitted%20an%20admission%20inquiry." target="_blank" class="cs-btn-wa-direct">
           <i class="fa-brands fa-whatsapp"></i> Chat with Counselor
         </a>
         <button type="button" onclick="closeThankYouModal()" class="cs-btn-dismiss">
@@ -722,7 +625,7 @@
   </div>
 
   <!-- WhatsApp Float -->
-  <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20need%20admission%20guidance" target="_blank" class="wa-float">
+  <a href="https://wa.me/917627094562?text=Hello%20Vidyarthi%20Sathi,%20I%20need%20admission%20guidance" target="_blank" class="wa-float">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
@@ -770,8 +673,10 @@
     function toggleSidebar() {
       const drawer = document.getElementById('sidebarDrawer');
       const overlay = document.getElementById('sidebarOverlay');
-      drawer.classList.toggle('open');
-      overlay.classList.toggle('open');
+      if (drawer && overlay) {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('open');
+      }
     }
 
     function initAllStatesDropdowns() {
@@ -868,8 +773,8 @@
         if (Array.isArray(c.courses) && c.courses.length > 0) {
           previewHtml = c.courses.slice(0, 3).map(crs => {
             const name = typeof crs === 'string' ? crs : crs.name;
-            const fee = (typeof crs === 'object' && crs.perSemFee) ? crs.perSemFee : 'Affordable';
-            return `<div class="preview-row"><span>${name}</span><strong style="color:var(--cyan-neon);">${fee}/sem</strong></div>`;
+            const fee = (typeof crs === 'object' && (crs.perYearFee || crs.perSemFee)) ? (crs.perYearFee || crs.perSemFee) : 'Affordable';
+            return `<div class="preview-row"><span>${name}</span><strong style="color:var(--gold-neon);">${fee}</strong></div>`;
           }).join('');
         }
 
@@ -879,7 +784,7 @@
               <div class="u-card-header">
                 <h3>${c.name}</h3>
                 <div class="u-card-meta">
-                  <span><i class="fa-solid fa-location-dot" style="color:var(--cyan-bright);"></i> ${c.city}, ${c.state}</span>
+                  <span><i class="fa-solid fa-location-dot" style="color:var(--gold-neon);"></i> ${c.city}, ${c.state}</span>
                   <span class="u-rating">${c.rating || '4.3★'}</span>
                 </div>
               </div>

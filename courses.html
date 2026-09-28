@@ -3,13 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Academic Streams & Courses | Careersathi</title>
+  <title>Academic Streams & Courses | Vidyarthi Sathi</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .courses-full-container { width: 95%; max-width: 1440px; margin: 25px auto 80px; flex: 1; z-index: 20; position: relative; }
     
+    /* Modern Back Action Bar */
+    .nav-back-bar {
+      width: 95%; max-width: 1440px; margin: 20px auto 10px;
+      display: flex; justify-content: flex-start; align-items: center; gap: 12px;
+      position: relative; z-index: 20;
+    }
+    .btn-back-nav {
+      background: rgba(10, 20, 38, 0.85);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      color: #f8fafc;
+      padding: 9px 18px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+    }
+    .btn-back-nav i { color: var(--gold-neon, #fbbf24); }
+    .btn-back-nav:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--gold-neon, #fbbf24);
+      color: var(--gold-neon, #fbbf24);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25);
+    }
+
+    .course-search-section {
+      max-width: 680px; margin: 20px auto 35px; position: relative; z-index: 30; padding: 0 16px;
+    }
+    .search-input-wrap {
+      position: relative; display: flex; align-items: center;
+    }
+    .search-input-wrap i {
+      position: absolute; left: 18px; color: var(--gold-neon, #fbbf24); font-size: 1.1rem;
+    }
+    .course-live-input {
+      width: 100%; padding: 15px 18px 15px 48px; background: rgba(10, 20, 38, 0.95);
+      border: 1px solid var(--border-glow, rgba(245, 158, 11, 0.3)); border-radius: 30px;
+      color: #fff; font-size: 1rem; outline: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+    }
+    .course-live-input:focus {
+      border-color: var(--gold-neon, #fbbf24); box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+    }
+
     .stream-block-wrapper {
       background: var(--bg-card); border: 1px solid var(--border-glow);
       border-radius: 20px; padding: 30px; margin-bottom: 40px; backdrop-filter: blur(16px);
@@ -19,10 +69,10 @@
       font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-bottom: 25px;
       display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 14px;
     }
-    .stream-main-title i { color: var(--cyan-neon); font-size: 1.4rem; }
+    .stream-main-title i { color: var(--gold-neon, #fbbf24); font-size: 1.4rem; }
 
     .level-heading {
-      font-size: 1rem; font-weight: 800; color: var(--cyan-neon); margin: 20px 0 14px;
+      font-size: 1rem; font-weight: 800; color: var(--gold-neon, #fbbf24); margin: 20px 0 14px;
       display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
     }
     .level-heading.ug { color: #60a5fa; }
@@ -37,18 +87,18 @@
       border-radius: 14px; padding: 18px; display: flex; flex-direction: column;
       justify-content: space-between; transition: all 0.2s; position: relative;
     }
-    .c-badge-card:hover { border-color: var(--cyan-bright); transform: translateY(-2px); background: rgba(6, 182, 212, 0.05); }
+    .c-badge-card:hover { border-color: var(--gold-neon, #fbbf24); transform: translateY(-2px); background: rgba(245, 158, 11, 0.05); }
 
     .c-badge-card h4 { font-size: 1.05rem; font-weight: 800; color: #ffffff; margin-bottom: 8px; }
     .c-meta-row { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; display: flex; justify-content: space-between; }
     .c-meta-row strong { color: #cbd5e1; }
 
     .c-inquire-btn {
-      margin-top: 14px; width: 100%; background: rgba(6, 182, 212, 0.15);
-      border: 1px solid rgba(6, 182, 212, 0.4); color: var(--cyan-neon); padding: 8px;
+      margin-top: 14px; width: 100%; background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      border: 1px solid var(--border-glow); color: #fff; padding: 9px;
       border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; text-align: center;
     }
-    .c-inquire-btn:hover { background: var(--cyan-bright); color: #070b14; }
+    .c-inquire-btn:hover { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
   </style>
 </head>
 <body>
@@ -56,41 +106,92 @@
   <div class="ambient-glow"></div>
   <div class="ambient-glow-2"></div>
 
-  <!-- Navbar -->
+  <!-- Slide-out Sidebar Drawer Overlay -->
+  <div class="sidebar-drawer-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Slide-out Sidebar Drawer -->
+  <aside class="sidebar-drawer" id="sidebarDrawer">
+    <div>
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <div>Vidyarthi<span>Sathi</span><small>The Growth Guide</small></div>
+        </a>
+        <button class="modal-close-icon" onclick="toggleSidebar()">&times;</button>
+      </div>
+
+      <ul class="sidebar-nav-list">
+        <li class="sidebar-nav-item">
+          <a href="index.html"><i class="fa-solid fa-house" style="color:var(--gold-neon);"></i> Home</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="index.html#universitiesSection" onclick="toggleSidebar()"><i class="fa-solid fa-building-columns" style="color:var(--gold-neon);"></i> Universities</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="courses.html"><i class="fa-solid fa-graduation-cap" style="color:#38bdf8;"></i> All Courses & Streams</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="index.html#smartFinderSection" onclick="toggleSidebar()"><i class="fa-solid fa-magnifying-glass" style="color:#fbbf24;"></i> College Finder</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="admin.html"><i class="fa-solid fa-shield-halved" style="color:#fbbf24;"></i> Admin Portal</a>
+        </li>
+      </ul>
+    </div>
+
+    <div style="border-top: 1px solid var(--border-subtle); padding-top: 20px;">
+      <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:800; margin-bottom:8px;">Helpline Desk</div>
+      <a href="https://wa.me/917627094562" target="_blank" style="color:#34d399; font-weight:800; font-size:0.95rem; text-decoration:none; display:flex; align-items:center; gap:8px;">
+        <i class="fa-brands fa-whatsapp"></i> +91 76270 94562
+      </a>
+    </div>
+  </aside>
+
+  <!-- Clean Navbar (Only Hamburger + Logo + Action Button) -->
   <header class="navbar">
-    <a href="index.html" class="logo">Career<span>sathi</span></a>
-    <nav class="nav-links">
-      <a href="index.html#universitiesSection">Universities</a>
-      <a href="courses.html" class="active">Courses</a>
-      <a href="index.html#smartFinderSection">College Finder</a>
-      <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Admin Portal</a>
+    <div class="nav-left-group">
+      <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open Navigation Menu" style="display: flex !important;">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <a href="index.html" class="logo">
+        <div>Vidyarthi<span>Sathi</span><small>The Growth Guide</small></div>
+      </a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px;">
       <a href="javascript:void(0)" onclick="openCourseModal('General Counselling', '3-4 Years', '10+2 Pass')" class="nav-counselling-btn"><i class="fa-solid fa-headset"></i> Free Counselling</a>
-    </nav>
+    </div>
   </header>
 
-  <!-- Back & Home Action Header Bar -->
+  <!-- Modern Back Action Bar -->
   <div class="nav-back-bar">
     <a href="index.html" class="btn-back-nav"><i class="fa-solid fa-arrow-left"></i> Back to Homepage</a>
     <a href="index.html" class="btn-back-nav"><i class="fa-solid fa-house"></i> Home</a>
   </div>
 
-  <section class="page-header" style="margin-top: 15px;">
+  <section class="page-header" style="margin-top: 10px;">
     <div class="tag-badge"><i class="fa-solid fa-graduation-cap"></i> Academic Structure 2026-27</div>
     <h1>Academic Streams & Degree Hierarchy</h1>
     <p>Select courses by level: Diploma, Bachelor's (UG), and Master's (PG) degrees across all major disciplines.</p>
   </section>
 
+  <!-- Live Search Bar -->
+  <div class="course-search-section">
+    <div class="search-input-wrap">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="courseSearchInput" class="course-live-input" placeholder="Search any course (e.g. B.Tech, Nursing, MBA, AI, B.Pharm)..." oninput="handleLiveCourseSearch()">
+    </div>
+  </div>
+
   <main class="courses-full-container" id="streamHierarchyContainer"></main>
 
   <!-- Course Inquiry Modal -->
   <div class="modal-backdrop" id="courseInquiryModal">
-    <div class="modal-window" style="max-width: 540px;">
+    <div class="modal-window">
       <button class="modal-close-icon" onclick="closeCourseModal()">&times;</button>
-      <div style="font-size:0.75rem; font-weight:800; color:var(--cyan-neon); text-transform:uppercase; letter-spacing:0.8px;">Course Admission Desk</div>
+      <div style="font-size:0.75rem; font-weight:800; color:var(--gold-neon); text-transform:uppercase; letter-spacing:0.8px;">Course Admission Desk</div>
       <h2 id="modalCourseTitle" style="font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:6px;">Course Inquiry</h2>
       
       <div class="modal-banner">
-        <div id="modalDur" style="font-size:0.86rem; font-weight:700; color:var(--cyan-neon);"><i class="fa-regular fa-clock"></i> Duration: 3 Years</div>
+        <div id="modalDur" style="font-size:0.86rem; font-weight:700; color:var(--gold-neon);"><i class="fa-regular fa-clock"></i> Duration: 3 Years</div>
         <div id="modalElig" style="font-size:0.82rem; color:#cbd5e1; margin-top:2px;"><i class="fa-solid fa-circle-check"></i> Eligibility: 10+2 Pass</div>
       </div>
 
@@ -98,22 +199,27 @@
         <input type="hidden" id="hiddenCourse" value="">
 
         <div class="side-form-group">
-          <label>Student Full Name</label>
+          <label>Student Full Name *</label>
           <input type="text" id="cName" placeholder="Enter full name" required>
         </div>
 
         <div class="side-form-group">
-          <label>WhatsApp Number</label>
+          <label>WhatsApp Number *</label>
           <input type="tel" id="cPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="side-form-group">
+          <label>Email Address *</label>
+          <input type="email" id="cEmail" placeholder="Enter your email address" required>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
           <div class="side-form-group">
-            <label>City</label>
+            <label>City *</label>
             <input type="text" id="cCity" placeholder="City" required>
           </div>
           <div class="side-form-group">
-            <label>State</label>
+            <label>State *</label>
             <input type="text" id="cState" placeholder="State" required>
           </div>
         </div>
@@ -138,17 +244,17 @@
     </div>
   </div>
 
-  <!-- Modern Interactive Thank-You Modal -->
+  <!-- Thank-You Modal -->
   <div id="csThankYouModal" class="cs-modal-overlay" style="display: none;">
     <div class="cs-modal-card">
       <div class="cs-modal-icon-wrap">
         <i class="fa-solid fa-check"></i>
       </div>
       <h3 class="cs-modal-title">Enquiry Received! 🎉</h3>
-      <p class="cs-modal-desc">Thank you for reaching out to <strong>Careersathi</strong>. Our academic counselor will connect with you on WhatsApp shortly.</p>
+      <p class="cs-modal-desc">Thank you for reaching out to <strong>Vidyarthi Sathi</strong>. Our academic counselor will connect with you on WhatsApp shortly.</p>
       
       <div class="cs-modal-actions">
-        <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20just%20submitted%20a%20course%20inquiry." target="_blank" class="cs-btn-wa-direct">
+        <a href="https://wa.me/917627094562?text=Hello%20Vidyarthi%20Sathi,%20I%20just%20submitted%20a%20course%20inquiry." target="_blank" class="cs-btn-wa-direct">
           <i class="fa-brands fa-whatsapp"></i> Chat with Counselor
         </a>
         <button type="button" onclick="closeThankYouModal()" class="cs-btn-dismiss">
@@ -162,8 +268,10 @@
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="logo" style="margin-bottom:12px;">Career<span>sathi</span></div>
-        <p>Careersathi is India's leading tech-enabled university discovery & career counselling platform. We guide students toward verified institutions with transparent fee structures.</p>
+        <div class="logo" style="margin-bottom:12px;">
+          <div>Vidyarthi<span>Sathi</span><small>The Growth Guide</small></div>
+        </div>
+        <p>Vidyarthi Sathi is India's leading tech-enabled university discovery & career counselling platform. We guide students toward verified institutions with transparent fee structures.</p>
       </div>
 
       <div class="footer-col">
@@ -201,7 +309,7 @@
 
     <div class="footer-bottom-row">
       <div style="color: var(--text-muted); font-size: 0.88rem;">
-        &copy; 2026 Careersathi. All Rights Reserved. Right Guidance, Right Career.
+        &copy; 2026 Vidyarthi Sathi. All Rights Reserved. Right Guidance, Right Career.
       </div>
       <div style="display: flex; gap: 20px; align-items: center;">
         <a href="https://wa.me/917627094562" target="_blank" style="color: #22c55e; font-size: 1.25rem;"><i class="fa-brands fa-whatsapp"></i></a>
@@ -210,8 +318,7 @@
     </div>
   </footer>
 
-  <!-- WhatsApp Float -->
-  <a href="https://wa.me/917627094562?text=Hello%20Careersathi,%20I%20need%20course%20guidance" target="_blank" class="wa-float">
+  <a href="https://wa.me/917627094562?text=Hello%20Vidyarthi%20Sathi,%20I%20need%20course%20guidance" target="_blank" class="wa-float">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
@@ -340,15 +447,42 @@
       }
     };
 
-    function renderHierarchyPage() {
+    function toggleSidebar() {
+      const drawer = document.getElementById('sidebarDrawer');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (drawer && overlay) {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('open');
+      }
+    }
+
+    function renderHierarchyPage(searchQuery = '') {
       const container = document.getElementById('streamHierarchyContainer');
       container.innerHTML = '';
+      const cleanFilter = searchQuery.trim().toLowerCase();
+
+      let hasMatch = false;
 
       Object.keys(COMPLETE_STREAM_HIERARCHY).forEach(streamName => {
         const streamData = COMPLETE_STREAM_HIERARCHY[streamName];
 
+        function filterList(list) {
+          if (!cleanFilter) return list;
+          return list.filter(item => item.name.toLowerCase().includes(cleanFilter) || item.elig.toLowerCase().includes(cleanFilter));
+        }
+
+        const filteredDiploma = filterList(streamData.diploma);
+        const filteredBachelor = filterList(streamData.bachelor);
+        const filteredMaster = filterList(streamData.master);
+
+        if (filteredDiploma.length === 0 && filteredBachelor.length === 0 && filteredMaster.length === 0) {
+          return;
+        }
+
+        hasMatch = true;
+
         function createCards(courses) {
-          if (!courses || courses.length === 0) return '<p style="color:var(--text-muted); font-size:0.85rem;">Programs updating soon.</p>';
+          if (!courses || courses.length === 0) return '<p style="color:var(--text-muted); font-size:0.85rem;">No matching programs found in this category.</p>';
           return courses.map(c => `
             <div class="c-badge-card">
               <div>
@@ -367,19 +501,34 @@
           <section class="stream-block-wrapper">
             <h2 class="stream-main-title"><i class="fa-solid ${streamData.icon}"></i> ${streamName}</h2>
 
-            <div class="level-heading"><i class="fa-solid fa-scroll"></i> 1. Diploma & Polytechnic Programs</div>
-            <div class="courses-grid-row">${createCards(streamData.diploma)}</div>
+            ${filteredDiploma.length > 0 ? `
+              <div class="level-heading"><i class="fa-solid fa-scroll"></i> 1. Diploma & Polytechnic Programs</div>
+              <div class="courses-grid-row">${createCards(filteredDiploma)}</div>
+            ` : ''}
 
-            <div class="level-heading ug"><i class="fa-solid fa-graduation-cap"></i> 2. Bachelor's Degrees (UG)</div>
-            <div class="courses-grid-row">${createCards(streamData.bachelor)}</div>
+            ${filteredBachelor.length > 0 ? `
+              <div class="level-heading ug"><i class="fa-solid fa-graduation-cap"></i> 2. Bachelor's Degrees (UG)</div>
+              <div class="courses-grid-row">${createCards(filteredBachelor)}</div>
+            ` : ''}
 
-            <div class="level-heading pg"><i class="fa-solid fa-award"></i> 3. Master's Degrees (PG)</div>
-            <div class="courses-grid-row">${createCards(streamData.master)}</div>
+            ${filteredMaster.length > 0 ? `
+              <div class="level-heading pg"><i class="fa-solid fa-award"></i> 3. Master's Degrees (PG)</div>
+              <div class="courses-grid-row">${createCards(filteredMaster)}</div>
+            ` : ''}
           </section>
         `;
 
         container.insertAdjacentHTML('beforeend', html);
       });
+
+      if (!hasMatch) {
+        container.innerHTML = `<div style="text-align:center; padding:50px 20px; color:var(--text-muted); font-size:1.1rem;"><i class="fa-solid fa-circle-exclamation" style="font-size:2rem; color:var(--gold-neon); margin-bottom:12px; display:block;"></i> No course matching "<strong>${searchQuery}</strong>" found. Try searching B.Tech, Nursing, MBA, or B.Pharm.</div>`;
+      }
+    }
+
+    function handleLiveCourseSearch() {
+      const q = document.getElementById('courseSearchInput').value;
+      renderHierarchyPage(q);
     }
 
     function openCourseModal(course, dur, elig) {
@@ -414,6 +563,7 @@
       const payload = {
         student_name: document.getElementById('cName').value.trim(),
         phone: document.getElementById('cPhone').value.trim(),
+        email: document.getElementById('cEmail').value.trim(),
         course: `${course} (${document.getElementById('cQual').value} - Score: ${document.getElementById('cScore').value})`,
         location: `${document.getElementById('cCity').value.trim()}, ${document.getElementById('cState').value.trim()}`,
         status: "New"
@@ -435,7 +585,7 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', renderHierarchyPage);
+    window.addEventListener('DOMContentLoaded', () => renderHierarchyPage());
   </script>
 </body>
 </html>

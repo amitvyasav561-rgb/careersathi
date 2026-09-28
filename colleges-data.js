@@ -153,7 +153,7 @@ const streamCourseMap = {
 };
 
 // =========================================================================
-// 4. VERIFIED TOP PARTNER UNIVERSITIES (WITH RETRO-COMPATIBILITY)
+// 4. VERIFIED TOP PARTNER UNIVERSITIES
 // =========================================================================
 const RAW_UNIVERSITIES = [
   {
@@ -170,7 +170,7 @@ const RAW_UNIVERSITIES = [
       "UGC, AICTE, PCI, BCI Approved",
       "Registration Fee: ₹5,000 / Year",
       "Hostel Fee after MU Scholarship: ₹70,000 / Year",
-      "Direct MU Scholarship Structure 2025-2026 Applied"
+      "Direct MU Scholarship Structure 2026 Applied"
     ],
     faculties: [
       {
@@ -447,7 +447,7 @@ const RAW_UNIVERSITIES = [
     highestPackage: "₹61 LPA",
     avgPackage: "₹7.2 LPA",
     recruiters: ["Amazon", "Cisco", "Deloitte", "KPMG", "EY", "Accenture"],
-    highlights: ["India's Premier Private University", "World-Class Infrastructure", "High MNC Tie-ups"],
+    highlights: ["Premier Private University", "World-Class Infrastructure", "High MNC Tie-ups"],
     faculties: [
       {
         facultyName: "General Degree Programs",
@@ -647,7 +647,8 @@ const DEFAULT_15_UNIVERSITIES = RAW_UNIVERSITIES.map(univ => {
           allCourses.push({
             ...c,
             faculty: f.facultyName,
-            feePerSem: c.perYearFee, // Backward compatibility
+            perYearFee: c.perYearFee,
+            perSemFee: c.perYearFee,
             totalFee: c.perYearFee
           });
         });

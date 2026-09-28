@@ -3,100 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Sathi - Master Admin Portal</title>
+  <title>Vidyarthi Sathi - Master Admin Portal</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
     :root {
-      --bg-dark: #070d18;
-      --card-bg: #111827;
-      --card-inner: #0f172a;
+      --bg-dark: #060c18;
+      --card-bg: #0a1426;
+      --card-inner: #0d1e38;
       --border-color: #1e293b;
-      --primary: #0284c7;
-      --primary-hover: #0369a1;
-      --accent: #38bdf8;
+      --primary: #d97706;
+      --primary-hover: #b45309;
+      --accent: #fbbf24;
       --success: #10b981;
       --danger: #ef4444;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding: 24px 16px; }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding: 20px 14px; }
 
     #loginLayer {
-      position: fixed; inset: 0; background: #040812; z-index: 99999;
+      position: fixed; inset: 0; background: #030712; z-index: 99999;
       display: flex; justify-content: center; align-items: center; padding: 20px;
     }
     .login-card {
-      background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px;
-      border-radius: 16px; max-width: 420px; width: 100%; text-align: center;
+      background: var(--card-bg); border: 1px solid rgba(251, 191, 36, 0.3); padding: 36px 28px;
+      border-radius: 18px; max-width: 420px; width: 100%; text-align: center;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
     }
     .login-card h2 { color: var(--accent); font-size: 1.6rem; margin-bottom: 6px; }
     .login-card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px; }
     .login-field {
-      width: 100%; padding: 13px 15px; margin-bottom: 14px; background: #1e293b;
-      border: 1px solid #334155; border-radius: 8px; color: #fff; outline: none; font-size: 0.95rem;
+      width: 100%; padding: 13px 15px; margin-bottom: 14px; background: #060d1a;
+      border: 1px solid #1e293b; border-radius: 8px; color: #fff; outline: none; font-size: 0.95rem;
     }
     .login-field:focus { border-color: var(--accent); }
     .btn-login-submit {
-      width: 100%; background: var(--primary); color: #fff; border: none; padding: 14px;
-      border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem;
-      transition: background 0.2s;
+      width: 100%; background: linear-gradient(135deg, var(--accent), var(--primary)); color: #070c18; border: none; padding: 14px;
+      border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 1rem;
     }
-    .btn-login-submit:hover { background: var(--primary-hover); }
 
-    #dashboardView { max-width: 1280px; margin: 0 auto; display: none; }
-    .top-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px; }
-    .brand-box { display: flex; align-items: center; gap: 18px; }
-    .brand-box a { color: var(--accent); text-decoration: none; font-size: 0.92rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-    .brand-box h1 { font-size: 1.45rem; font-weight: 700; }
+    #dashboardView { max-width: 1320px; margin: 0 auto; display: none; }
+    .top-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--border-color); margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+    .brand-box { display: flex; align-items: center; gap: 16px; }
+    .brand-box a { color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .brand-box h1 { font-size: 1.4rem; font-weight: 800; }
     .brand-box h1 span { color: var(--accent); }
-    .btn-logout { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); padding: 8px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-    .btn-logout:hover { background: var(--danger); color: #fff; }
+    .btn-logout { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-    .tab-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
-    .tab-btn { background: #1e293b; border: 1px solid #334155; color: var(--text-muted); padding: 11px 22px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; }
+    .tab-bar { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .tab-btn { background: #0a1426; border: 1px solid var(--border-color); color: var(--text-muted); padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
     .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--accent); }
 
     .panel { display: none; }
     .panel.active { display: block; }
 
-    .admin-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 28px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-    .card-title { font-size: 1.2rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 10px; margin-bottom: 0; }
+    .admin-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; margin-bottom: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+    .card-title { font-size: 1.18rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 10px; margin-bottom: 0; }
 
-    .form-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 20px; }
+    .form-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 18px; }
     .input-wrap { display: flex; flex-direction: column; gap: 6px; }
-    .input-wrap label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+    .input-wrap label { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
     .input-wrap input, .input-wrap select {
-      background: #1e293b; border: 1px solid #334155; color: #fff;
-      padding: 11px 14px; border-radius: 8px; outline: none; font-size: 0.92rem;
+      background: #060d1a; border: 1px solid #1e293b; color: #fff;
+      padding: 10px 12px; border-radius: 8px; outline: none; font-size: 0.9rem;
     }
     .input-wrap input:focus, .input-wrap select:focus { border-color: var(--accent); }
 
     .course-card {
-      background: var(--card-inner); border: 1px solid #243247;
-      border-radius: 10px; padding: 20px; margin-bottom: 16px; position: relative;
+      background: var(--card-inner); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px; padding: 18px; margin-bottom: 14px;
     }
-    .course-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
-    .course-tag { background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .course-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .course-tag { background: rgba(251, 191, 36, 0.15); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; }
     .course-actions { display: flex; gap: 8px; }
-    .btn-edit-course { background: #2563eb; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
-    .btn-del-course { background: var(--danger); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
-    .readonly-field { background: #070d18 !important; border-color: transparent !important; cursor: default; }
+    .btn-edit-course { background: #2563eb; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+    .btn-del-course { background: var(--danger); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+    .readonly-field { background: #040812 !important; border-color: transparent !important; cursor: default; }
 
-    .btn-append-course { width: 100%; background: #1e293b; border: 1px dashed var(--accent); color: var(--accent); padding: 13px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 22px; font-size: 0.95rem; }
-    .btn-submit-main { width: 100%; background: var(--success); color: #fff; border: none; padding: 15px; border-radius: 8px; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
-    .btn-clear-form { background: #334155; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+    .btn-append-course { width: 100%; background: #060d1a; border: 1px dashed var(--accent); color: var(--accent); padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-bottom: 18px; font-size: 0.92rem; }
+    .btn-submit-main { width: 100%; background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-clear-form { background: #1e293b; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
 
-    .table-responsive { width: 100%; overflow-x: auto; }
-    .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    .data-table th, .data-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
-    .data-table th { color: var(--accent); background: #0f172a; font-weight: 600; }
+    /* Responsive Smooth Table */
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; }
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; min-width: 760px; }
+    .data-table th, .data-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.88rem; }
+    .data-table th { color: var(--accent); background: #050b14; font-weight: 700; text-transform: uppercase; font-size: 0.76rem; letter-spacing: 0.5px; }
     
     .status-select {
-      background: #1e293b; border: 1px solid #334155; color: #fff;
-      padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; outline: none; cursor: pointer;
+      background: #060d1a; border: 1px solid #1e293b; color: #fff;
+      padding: 6px 8px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; outline: none; cursor: pointer;
     }
   </style>
 </head>
@@ -106,12 +104,12 @@
   <div id="loginLayer">
     <div class="login-card">
       <h2><i class="fas fa-lock"></i> Admin Portal</h2>
-      <p>Supabase Cloud Authentication</p>
+      <p>Vidyarthi Sathi Database Desk</p>
       
       <input type="email" id="supabaseEmail" class="login-field" placeholder="Supabase Email ID" autocomplete="email" />
       <input type="password" id="supabasePass" class="login-field" placeholder="Supabase Password" autocomplete="current-password" />
       <button type="button" id="loginBtn" class="btn-login-submit" onclick="executeSupabaseAuth()">
-        <i class="fas fa-right-to-bracket"></i> Login with Supabase
+        <i class="fas fa-right-to-bracket"></i> Login to Portal
       </button>
     </div>
   </div>
@@ -121,7 +119,7 @@
     <div class="top-header">
       <div class="brand-box">
         <a href="index.html"><i class="fas fa-arrow-left"></i> Live Site</a>
-        <h1>Career <span>Sathi</span> Master Admin Desk</h1>
+        <h1>Vidyarthi <span>Sathi</span> Master Admin Desk</h1>
       </div>
       <button class="btn-logout" onclick="executeSupabaseLogout()"><i class="fas fa-power-off"></i> Logout</button>
     </div>
@@ -135,7 +133,7 @@
         <i class="fas fa-building-columns"></i> Supabase Colleges (<span id="totalCollegesBadge">0</span>)
       </button>
       <button class="tab-btn" onclick="showTab('tab-crm', this); fetchLeadsFromDB();">
-        <i class="fas fa-users"></i> Supabase Leads (<span id="totalLeadsBadge">0</span>)
+        <i class="fas fa-users"></i> Student Leads / CRM (<span id="totalLeadsBadge">0</span>)
       </button>
     </div>
 
@@ -163,12 +161,12 @@
           </div>
         </div>
 
-        <div class="input-wrap" style="margin-bottom: 28px;">
+        <div class="input-wrap" style="margin-bottom: 24px;">
           <label>Top Placement Partners (Comma Separated)</label>
           <input type="text" id="viewUniPartners" placeholder="e.g. TCS, Wipro, Infosys, Tech Mahindra" />
         </div>
 
-        <h2 class="card-title" style="margin-bottom:16px;"><i class="fas fa-graduation-cap"></i> Courses Offered & Fee Matrix</h2>
+        <h2 class="card-title" style="margin-bottom:14px;"><i class="fas fa-graduation-cap"></i> Courses Offered & Fee Matrix</h2>
         <div id="coursesListMount"></div>
 
         <button type="button" class="btn-append-course" onclick="addNewCourseCard()">
@@ -186,7 +184,7 @@
       <div class="admin-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
           <h2 class="card-title" style="margin-bottom:0;"><i class="fas fa-database"></i> Live Supabase Colleges Table</h2>
-          <button onclick="fetchCollegesFromDB()" style="background:#1e293b; border:1px solid #334155; color:var(--accent); padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:600;"><i class="fas fa-arrows-rotate"></i> Reload from DB</button>
+          <button onclick="fetchCollegesFromDB()" style="background:#060d1a; border:1px solid #1e293b; color:var(--accent); padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:700;"><i class="fas fa-arrows-rotate"></i> Reload from DB</button>
         </div>
         <div class="table-responsive">
           <table class="data-table">
@@ -212,8 +210,8 @@
     <div id="tab-crm" class="panel">
       <div class="admin-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-          <h2 class="card-title" style="margin-bottom:0;"><i class="fas fa-bolt"></i> Live Supabase Leads (CRM)</h2>
-          <button onclick="fetchLeadsFromDB()" style="background:#1e293b; border:1px solid #334155; color:var(--accent); padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:600;"><i class="fas fa-arrows-rotate"></i> Reload Leads</button>
+          <h2 class="card-title" style="margin-bottom:0;"><i class="fas fa-bolt"></i> Live Student Admissions CRM</h2>
+          <button onclick="fetchLeadsFromDB()" style="background:#060d1a; border:1px solid #1e293b; color:var(--accent); padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:700;"><i class="fas fa-arrows-rotate"></i> Reload Leads</button>
         </div>
         <div class="table-responsive">
           <table class="data-table">
@@ -221,9 +219,9 @@
               <tr>
                 <th>Student Name</th>
                 <th>WhatsApp Contact</th>
+                <th>Email ID</th>
                 <th>City / State</th>
-                <th>Preferred University</th>
-                <th>Interested Course</th>
+                <th>Course / Inquiry</th>
                 <th>CRM Status</th>
               </tr>
             </thead>
@@ -237,14 +235,12 @@
   </div>
 
   <script>
-    // --- SUPABASE CONFIGURATION ---
     const SUPABASE_PROJECT_URL = "https://vkkafkopquwieibqinip.supabase.co";
     const SUPABASE_ANON_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZra2Fma29wcXV3aWVpYnFpbmlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjA0MDEsImV4cCI6MjEwMjY5NjQwMX0.QIGbprbPGan2LRvbKDgM-iEd6H21Se_4IngTFnmvVfE";
 
     let liveColleges = [];
     let liveLeads = [];
 
-    // --- 1. SUPABASE AUTH ---
     async function executeSupabaseAuth() {
       const email = document.getElementById('supabaseEmail').value.trim();
       const password = document.getElementById('supabasePass').value.trim();
@@ -280,7 +276,7 @@
       } catch (err) {
         alert("Connection Error: " + err.message);
       } finally {
-        btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login with Supabase';
+        btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login to Portal';
         btn.disabled = false;
       }
     }
@@ -303,7 +299,6 @@
       }
     }
 
-    // --- 2. SUPABASE DATA FETCHING ---
     async function initAdminData() {
       resetToBlankForm();
       await fetchCollegesFromDB();
@@ -353,14 +348,14 @@
         tbody.innerHTML += `
           <tr>
             <td style="color:#94a3b8; font-weight: 600;">#${col.id}</td>
-            <td style="font-weight:600; color:#fff;">${col.name || 'Unnamed'}</td>
+            <td style="font-weight:700; color:#fff;">${col.name || 'Unnamed'}</td>
             <td>${col.location || '-'}</td>
             <td><span style="color:#4ade80;">${col.approvals || '-'}</span></td>
             <td>${courses.length} Courses</td>
             <td>
               <button onclick="loadUniversityForEdit('${col.id}')" style="background:#0284c7; color:#fff; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; font-weight:600; font-size:0.8rem; margin-right:8px;"><i class="fas fa-pen"></i> Edit</button>
               <button onclick="deleteUniversityFromDB('${col.id}')" style="background:var(--danger); color:#fff; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; font-weight:600; font-size:0.8rem; margin-right:8px;"><i class="fas fa-trash"></i> Delete</button>
-              <a href="college-detail.html?id=${col.id}" target="_blank" style="color:#38bdf8; text-decoration:none; font-weight:600;"><i class="fas fa-eye"></i> View</a>
+              <a href="college-detail.html?id=${col.id}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:700;"><i class="fas fa-eye"></i> View</a>
             </td>
           </tr>
         `;
@@ -400,21 +395,21 @@
       tbody.innerHTML = '';
 
       if (liveLeads.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No leads found in database. Inquiries from website / Make will appear here.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No leads found in database. Inquiries will appear here automatically.</td></tr>`;
         return;
       }
 
       liveLeads.forEach(lead => {
         tbody.innerHTML += `
           <tr>
-            <td style="font-weight:600; color:#fff;">${lead.name || 'Anonymous'}</td>
-            <td><a href="https://wa.me/${(lead.phone || '').replace(/[^0-9]/g, '')}" target="_blank" style="color:#4ade80; text-decoration:none; font-weight:600;"><i class="fab fa-whatsapp"></i> ${lead.phone || '-'}</a></td>
-            <td>${lead.city || '-'}</td>
-            <td>${lead.uni || '-'}</td>
-            <td>${lead.course || '-'}</td>
+            <td style="font-weight:700; color:#fff;">${lead.student_name || lead.name || 'Anonymous'}</td>
+            <td><a href="https://wa.me/${(lead.phone || '').replace(/[^0-9]/g, '')}" target="_blank" style="color:#4ade80; text-decoration:none; font-weight:700;"><i class="fab fa-whatsapp"></i> ${lead.phone || '-'}</a></td>
+            <td style="color:#cbd5e1; font-size:0.84rem;">${lead.email || '-'}</td>
+            <td>${lead.location || lead.city || '-'}</td>
+            <td style="max-width:240px; font-size:0.82rem; color:#cbd5e1;">${lead.course || '-'}</td>
             <td>
               <select class="status-select" onchange="updateLeadStatusInDB(${lead.id}, this.value)">
-                <option value="New Lead" ${lead.status === 'New Lead' ? 'selected' : ''}>🟢 New Lead</option>
+                <option value="New" ${lead.status === 'New' || lead.status === 'New Lead' ? 'selected' : ''}>🟢 New Lead</option>
                 <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>🔵 Contacted</option>
                 <option value="Follow-up" ${lead.status === 'Follow-up' ? 'selected' : ''}>🟡 Follow-up</option>
                 <option value="Counseling Done" ${lead.status === 'Counseling Done' ? 'selected' : ''}>🟣 Counseling Done</option>
@@ -444,7 +439,6 @@
       }
     }
 
-    // --- 3. FORM CONTROLS & DIRECT SUPABASE SAVE ---
     function resetToBlankForm() {
       document.getElementById('editingCollegeId').value = '';
       document.getElementById('viewUniName').value = '';

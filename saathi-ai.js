@@ -12,14 +12,14 @@
   widgetContainer.innerHTML = `
     <button class="saathi-launcher" id="saathiLauncher">
       <span class="badge-pulse"></span>
-      <span>Chat with Your Personal AI Counselor 🎓</span>
+      <span>Chat with Vidyarthi Sathi AI 🎓</span>
     </button>
 
     <div class="saathi-chatbox" id="saathiChatbox">
       <div class="saathi-header">
         <div>
-          <h4>Saathi AI</h4>
-          <p>Your Personal AI Counselor</p>
+          <h4>Vidyarthi Sathi AI</h4>
+          <p>The Growth Guide - Personal Counselor</p>
         </div>
         <button class="saathi-close-btn" id="saathiCloseBtn">&times;</button>
       </div>
@@ -41,7 +41,6 @@
   const inputForm = document.getElementById('saathiInputForm');
   const inputField = document.getElementById('saathiInputField');
 
-  // Toggle Widget
   launcher.addEventListener('click', () => {
     chatbox.classList.toggle('open');
     if (chatbox.classList.contains('open') && messagesBox.children.length === 0) {
@@ -61,9 +60,8 @@
     messagesBox.scrollTop = messagesBox.scrollHeight;
   }
 
-  // 2. Onboarding Flow
   function startWelcomeFlow() {
-    appendMsg('bot', 'Namaste! Main hoon <strong>Saathi</strong>, aapka personal admission counselor. 🎓<br><br>Please choose your preferred language:');
+    appendMsg('bot', 'Namaste! Main hoon <strong>Vidyarthi Sathi AI</strong>, aapka admission and career growth counselor. 🎓<br><br>Please choose your preferred language:');
     
     const optionsDiv = document.createElement('div');
     optionsDiv.className = 'saathi-options';
@@ -108,7 +106,6 @@
     appendMsg('bot', msg);
   }
 
-  // Global Lead Save Function
   async function saveLeadToSupabase(customCourse = '') {
     try {
       if (typeof supabaseClient !== 'undefined' && supabaseClient) {
@@ -116,23 +113,22 @@
           student_name: userSession.name,
           phone: userSession.phone,
           course: customCourse || `AI Counselor (${userSession.language})`,
-          location: "Website AI Chat",
+          location: "Vidyarthi Sathi AI Chat",
           status: "New"
         }]);
       }
     } catch(err) {
-      console.log("Supabase unavailable, local lead logged");
+      console.log("Supabase lead fallback logged");
     }
   }
 
-  // Brochure Request (High-Intent Logger)
   window.requestCollegeBrochure = async function(collegeName) {
     appendMsg('user', `Download Brochure: ${collegeName}`);
     await saveLeadToSupabase(`BROCHURE_REQUEST: ${collegeName}`);
 
     setTimeout(() => {
-      appendMsg('bot', `✅ <strong>${collegeName} Brochure</strong> request confirm ho gaya hai!<br><br>Official fee structure, scholarship matrix aur placement report aapke WhatsApp (<strong>+91 ${userSession.phone}</strong>) par hamare admission officer dwara send kiya ja raha hai.`);
-    }, 800);
+      appendMsg('bot', `✅ <strong>${collegeName} Brochure & Fee Structure</strong> request confirm ho gaya hai!<br><br>Official fee matrix aur placement record aapke WhatsApp (<strong>+91 ${userSession.phone}</strong>) par hamare expert counselor dwara deliver kiya ja raha hai.`);
+    }, 700);
   };
 
   function startCounseling() {
@@ -140,15 +136,13 @@
     inputField.type = "text";
     inputField.placeholder = "Ask college, course or fee queries...";
     inputField.focus();
-    appendMsg('bot', `Thank you ${userSession.name}! Profile set hai. Ab batayein, aap kis college ya course (jaise B.Tech, B.Pharm) ke baare me janna chahte hain?`);
+    appendMsg('bot', `Thank you ${userSession.name}! Profile set hai. Ab batayein, aap kis college ya course (jaise B.Tech, B.Pharm, MBA, Nursing) ke baare me janna chahte hain?`);
   }
 
-  // Helper: Normalize string for matching
   function cleanStr(s) {
     return (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   }
 
-  // 3. Search Engine
   function answerQueryFromSiteData(rawQuery) {
     const qRaw = rawQuery.trim().toLowerCase();
     const qClean = cleanStr(rawQuery);
@@ -169,12 +163,12 @@
     });
 
     if (matched.length > 0) {
-      let replyHtml = `Verified database se results:<br>`;
+      let replyHtml = `Vidyarthi Sathi verified database se results:<br>`;
       matched.slice(0, 3).forEach(c => {
         replyHtml += `
           <div class="saathi-college-card">
             <h5>${c.name}</h5>
-            <p>📍 Location: <strong>${c.city}</strong></p>
+            <p>📍 Location: <strong>${c.city}, ${c.state}</strong></p>
             <p>Avg Pkg: ${c.avgPackage || '₹5 LPA'}</p>
             <button class="saathi-pill" style="margin-top:8px; width:100%; justify-content:center; display:flex; align-items:center; gap:6px;" onclick="requestCollegeBrochure('${c.name}')">
               📥 Download 2026 Brochure & Fees
@@ -185,11 +179,9 @@
       return replyHtml;
     } 
     
-    // UPDATED FALLBACK MESSAGE
-    return `Mujhe "${rawQuery}" se related direct data nahi mila. <strong>Maine apki call hamare Head Counselor ko transfer kar di hai, jald hi vo apse connect krenge!</strong>`;
+    return `Mujhe "${rawQuery}" se related direct data nahi mila. <strong>Maine apki profile hamare Senior Counselor ko forward kar di hai, wo aapse WhatsApp par connect karenge!</strong>`;
   }
 
-  // 4. Form Submit
   inputForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const val = inputField.value.trim();
@@ -203,7 +195,7 @@
     } 
     else if (userSession.step === 'PHONE') {
       const cleanPhone = val.replace(/\D/g, '');
-      if (cleanPhone.length < 10) return alert("Valid number enter karein.");
+      if (cleanPhone.length < 10) return alert("Valid 10-digit number enter karein.");
       userSession.phone = cleanPhone;
       appendMsg('user', val);
       inputField.value = '';
@@ -214,11 +206,11 @@
       appendMsg('user', val);
       inputField.value = '';
       const typingId = 'typing-' + Date.now();
-      appendMsg('bot', '<span id="'+typingId+'">Saathi is searching...</span>');
+      appendMsg('bot', '<span id="'+typingId+'">Searching options...</span>');
       setTimeout(() => {
         document.getElementById(typingId)?.parentElement.remove();
         appendMsg('bot', '', answerQueryFromSiteData(val));
-      }, 700);
+      }, 600);
     }
   });
 })();
