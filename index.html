@@ -485,7 +485,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Complete Rich Footer -->
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
@@ -935,6 +935,18 @@
       }
     });
   </script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((reg) => console.log('Service Worker Registered successfully:', reg.scope))
+          .catch((err) => console.log('Service Worker Registration failed:', err));
+      });
+    }
+  </script>
+
   <script src="saathi-ai.js"></script>
 </body>
 </html>

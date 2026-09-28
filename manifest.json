@@ -1,21 +1,25 @@
 {
   "name": "Vidyarthi Sathi",
   "short_name": "VidyarthiSathi",
+  "description": "India's Smartest College Discovery Platform",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#060c18",
   "theme_color": "#060c18",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3135/3135810.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3135/3135810.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
